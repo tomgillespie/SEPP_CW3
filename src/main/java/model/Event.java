@@ -9,7 +9,7 @@ public abstract class Event {
     private EntertainmentProvider organiser;
     private String title;
     private EventType type;
-    private EventStatus status = EventStatus.ACTIVE;
+    private EventStatus eventStatus = EventStatus.ACTIVE;
     private Map<Long, EventPerformance> performances;
 
     protected Event(long eventNumber, EntertainmentProvider organiser, String title, EventType type){
@@ -36,11 +36,11 @@ public abstract class Event {
     }
 
     public EventStatus getStatus(){
-        return status;
+        return eventStatus;
     }
 
     public void cancel(){
-        status = EventStatus.CANCELLED;
+        eventStatus = EventStatus.CANCELLED;
     }
 
     public Long createMapKey(){
