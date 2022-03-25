@@ -2,9 +2,9 @@ package model;
 
 public abstract class User {
 
-    String email;
-    String passwordHash;
-    String paymentAccountEmail;
+    private String email;
+    private String passwordHash;
+    private String paymentAccountEmail;
 
     protected User(String email, String password, String paymentAccountEmail){
         this.email = email;
@@ -33,17 +33,12 @@ public abstract class User {
     }
 
     public void setPaymentAccountEmail(String newPaymentAccountEmail){
-        paymentAccountEmail = newPaymentAccountEmail;
+        this.paymentAccountEmail = newPaymentAccountEmail;
     }
 
     public String toString(){
         return "this class is" ;
     }
-
-
-
-
-
 
 
 }
