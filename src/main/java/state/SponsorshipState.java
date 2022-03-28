@@ -14,7 +14,8 @@ public class SponsorshipState implements ISponsorshipState{
         this.nextSponsorshipRequestNumber = 1;
     }
     public SponsorshipState(ISponsorshipState other){
-        // Deep copy
+        this.sponsorshipRequests = other.getAllSponsorshipRequests();
+        this.nextSponsorshipRequestNumber = other.getNextSponsorshipRequestNumber();
     }
     @Override
     public SponsorshipRequest addSponsorshipRequest(TicketedEvent event) {
@@ -48,5 +49,10 @@ public class SponsorshipState implements ISponsorshipState{
             }
         }
         return correctRequest;
+    }
+
+    @Override
+    public long getNextSponsorshipRequestNumber() {
+        return nextSponsorshipRequestNumber;
     }
 }

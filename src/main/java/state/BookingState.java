@@ -7,20 +7,30 @@ import model.User;
 
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class BookingState implements IBookingState{
     private long nextBookingNumber;
-    private List<Booking> bookings;
+    private ArrayList<Booking> bookings;
     public BookingState(){
         this.bookings = null;
         this.nextBookingNumber = 1;
     }
     public BookingState(IBookingState other){
-        new BookingState();
-//        this.nextBookingNumber = other.nextBookingNumber;
-//        this.bookings = other.bookings;
+        this.bookings = new ArrayList<Booking>(other.getBookings());
+        this.nextBookingNumber = other.getNextBookingNumber();
+    }
+
+    @Override
+    public List<Booking> getBookings(){
+        return bookings;
+    }
+
+    @Override
+    public long getNextBookingNumber(){
+        return nextBookingNumber;
     }
 
     @Override

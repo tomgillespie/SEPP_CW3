@@ -13,4 +13,6 @@ public interface IBookingState {
                           EventPerformance performance,
                           int numTickets,
                           double amountPaid);
+    List<Booking> getBookings();
+    long getNextBookingNumber();
 }

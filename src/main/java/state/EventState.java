@@ -3,20 +3,22 @@ package state;
 import model.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventState implements IEventState{
     private long nextEventNumber;
     private long nextPerformanceNumber;
-    private List<Event> events;
+    private ArrayList<Event> events;
     public EventState(){
         this.events = null;
         this.nextEventNumber = 1;
         this.nextPerformanceNumber = 1;
     }
     public EventState(IEventState other){
-        new EventState();
-        // Deep copy
+        this.events = new ArrayList<Event>(other.getAllEvents());
+        this.nextPerformanceNumber = other.getNextPerformanceNumber();
+        this.nextEventNumber = other.getNextEventNumber();
     }
 
     @Override
@@ -54,5 +56,15 @@ public class EventState implements IEventState{
         EventPerformance newEventPerformance = new EventPerformance(nextPerformanceNumber, event, venueAddress, startDateTime, endDateTime, performerNames, hasSocialDistancing, hasAirFiltration, isOutdoors, capacityLimit, venueSize);
         nextPerformanceNumber = nextPerformanceNumber + 1;
         return newEventPerformance;
+    }
+
+    @Override
+    public long getNextEventNumber() {
+        return nextEventNumber;
+    }
+
+    @Override
+    public long getNextPerformanceNumber() {
+        return nextPerformanceNumber;
     }
 }

@@ -10,4 +10,5 @@ public interface ISponsorshipState {
     List<SponsorshipRequest> getAllSponsorshipRequests();
     List<SponsorshipRequest> getPendingSponsorShipRequests();
     SponsorshipRequest findRequestByNumber(long requestNumber);
+    long getNextSponsorshipRequestNumber();
 }
