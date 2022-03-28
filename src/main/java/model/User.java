@@ -35,10 +35,4 @@ public abstract class User {
     public void setPaymentAccountEmail(String newPaymentAccountEmail){
         this.paymentAccountEmail = newPaymentAccountEmail;
     }
-
-    public String toString(){
-        return "this class is" ;
-    }
-
-
 }

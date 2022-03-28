@@ -1,6 +1,8 @@
 package external;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class MockEntertainmentProviderSystem implements EntertainmentProviderSystem{
     private String orgName;
@@ -12,12 +14,11 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
 
     @Override
     public void recordNewEvent(long eventNumber, String title, int numTickets) {
-        
+
     }
 
     @Override
     public void cancelEvent(long eventNumber, String message) {
-
     }
 
     @Override

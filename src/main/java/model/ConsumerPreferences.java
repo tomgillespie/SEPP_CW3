@@ -6,7 +6,7 @@ public class ConsumerPreferences {
     public int preferredMaxCapacity;
     public int preferredMaxVenueSize;
     public boolean preferSocialDistancing;
-    protected ConsumerPreferences(){
+    ConsumerPreferences(){
         this.preferAirFiltration = false;
         this.preferSocialDistancing = false;
         this.preferOutdoorsOnly = false;

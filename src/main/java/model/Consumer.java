@@ -8,7 +8,7 @@ public class Consumer extends User{
     private String phoneNumber;
     private List<Booking> bookings;
     private ConsumerPreferences preferences;
-    protected Consumer(String name, String phoneNumber, String email, String password, String paymentAccountEmail) {
+    public Consumer(String name, String phoneNumber, String email, String password, String paymentAccountEmail) {
         super(email, password, paymentAccountEmail);
         this.name = name;
         this.phoneNumber = phoneNumber;
