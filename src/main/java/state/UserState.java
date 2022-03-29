@@ -1,5 +1,6 @@
 package state;
 
+import model.GovernmentRepresentative;
 import model.User;
 
 import java.util.HashMap;
