@@ -17,7 +17,7 @@ public class BookingState implements IBookingState{
     private Booking correctBooking;
 
     public BookingState(){
-        this.bookings = null;
+        this.bookings = new ArrayList<>();
         this.nextBookingNumber = 1;
     }
     public BookingState(IBookingState other){
@@ -47,7 +47,7 @@ public class BookingState implements IBookingState{
 
     @Override
     public List<Booking> findBookingsByEventNumber(long eventNumber) {
-        List<Booking> correctBookings = null;
+        List<Booking> correctBookings = new ArrayList<>();
         for (int i = 0; i < bookings.size(); i++) {
             if(bookings.get(i).getEventPerformance().getEvent().getEventNumber()==eventNumber){
                 correctBookings.add(bookings.get(i));

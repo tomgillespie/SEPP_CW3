@@ -18,7 +18,7 @@ public abstract class User {
         return email;
     }
 
-    public void SetEmail(String newEmail){
+    public void setEmail(String newEmail){
         this.email = newEmail;
     }
 
