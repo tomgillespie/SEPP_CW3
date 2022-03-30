@@ -1,5 +1,4 @@
 package command;
 
-public abstract class UpdateProfileCommand implements ICommand {
-    //dont implement?
+public abstract class UpdateProfileCommand extends Object implements ICommand {
 }

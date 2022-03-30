@@ -31,6 +31,9 @@ public class Booking {
     public EventPerformance getEventPerformance(){
         return performance;
     }
+    public int getNumTickets(){
+        return numTickets;
+    }
     public double getAmountPaid(){
         return amountPaid;
     }

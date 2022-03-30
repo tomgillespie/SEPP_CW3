@@ -1,9 +1,9 @@
 package command;
 
+import controller.Context;
 import model.Consumer;
-import model.User;
 
-public class RegisterConsumerCommand implements ICommand {
+public class RegisterConsumerCommand extends Object implements ICommand{
 
     private String name;
     private String email;
@@ -11,7 +11,7 @@ public class RegisterConsumerCommand implements ICommand {
     private String password;
     private String paymentAccountEmail;
     private Consumer newConsumerResult;
-    private LogStatus logstatus;
+    private LogStatus logStatus;
 
     public enum LogStatus {
         REGISTER_CONSUMER_SUCCESS,
@@ -28,28 +28,33 @@ public class RegisterConsumerCommand implements ICommand {
         this.paymentAccountEmail = paymentAccountEmail;
     }
 
-    public void execute(controller.Context context){
+    @Override
+    public void execute(Context context) {
         if (name == null || email == null || phoneNumber == null || password == null || paymentAccountEmail == null) {
-            logstatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
+            this.logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
         }
-        //if the map contains the email??=
-        if(state.UserState.users.containsValue(email)){
-            logstatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
+        for(int i = 0; i < context.getUserState().getAllUsers().size(); i++){
+            if (context.getUserState().getAllUsers().get(i).getEmail() == email){
+                this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
+                break;
+            }
+            else {
+                this.logStatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
+            }
         }
-        else{
-            logstatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
+        if (logStatus == LogStatus.REGISTER_CONSUMER_SUCCESS){
+            this.newConsumerResult = new Consumer(name, phoneNumber, email, password, paymentAccountEmail);
+            context.getUserState().addUser(newConsumerResult);
+            context.getUserState().setCurrentUser(newConsumerResult);
         }
     }
 
-    public Consumer getResult(){
-        if (logstatus == LogStatus.REGISTER_CONSUMER_SUCCESS ){
-            //how to log the user in??
-            logstatus = LogStatus.USER_LOGIN_SUCCESS;
-            //will need to add a new user to the user state
-            newConsumerResult = new Consumer(name ,email,phoneNumber,password,paymentAccountEmail);
+    @Override
+    public Object getResult() {
+        if (logStatus == LogStatus.REGISTER_CONSUMER_SUCCESS){
+            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
             return newConsumerResult;
         }
-        else{return null;}
+        else return null;
     }
-
 }

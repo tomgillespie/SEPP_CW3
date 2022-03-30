@@ -1,5 +1,7 @@
 package model;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 public abstract class User {
 
     private String email;

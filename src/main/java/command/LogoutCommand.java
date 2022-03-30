@@ -2,9 +2,8 @@ package command;
 
 import controller.Context;
 
-public class LogoutCommand implements ICommand{
-
-    private LogStatus logstatus;
+public class LogoutCommand extends Object implements ICommand{
+    private LogStatus logStatus;
 
     public enum LogStatus {
         USER_LOGOUT_SUCCESS,
@@ -12,19 +11,21 @@ public class LogoutCommand implements ICommand{
     }
 
     public LogoutCommand(){
-
     }
 
+    @Override
     public void execute(Context context) {
-        if (controller.Context.getCurrentUser() == null){
-            logstatus = LogStatus.USER_LOGOUT_NOT_LOGGED_IN;
-        } //wont be an error once the context controller has been created
+        if (context.getUserState().getCurrentUser() == null){
+            this.logStatus = LogStatus.USER_LOGOUT_NOT_LOGGED_IN;
+        }
+        else {
+            context.getUserState().setCurrentUser(null);
+            this.logStatus = LogStatus.USER_LOGOUT_SUCCESS;
+        }
     }
 
     @Override
     public Object getResult() {
         return null;
     }
-
 }
-

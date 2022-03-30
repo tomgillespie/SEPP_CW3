@@ -1,8 +1,8 @@
 package command;
 
+import controller.Context;
+
 public interface ICommand {
-    void execute(controller.Context context);
-
+    void execute(Context context);
     Object getResult();
-
 }
