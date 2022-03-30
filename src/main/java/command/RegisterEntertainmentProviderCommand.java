@@ -5,6 +5,7 @@ import model.EntertainmentProvider;
 import model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public class RegisterEntertainmentProviderCommand extends Object implements ICommand{
 
@@ -43,12 +44,16 @@ public class RegisterEntertainmentProviderCommand extends Object implements ICom
 
     @Override
     public void execute(Context context) {
+        // Verifies orgName, orgAddress, paymentAccountEmail, mainRepName, mainRepEmail, password, otherRepNames, and otherRepEmails are all not null
         if(orgName == null || orgAddress == null || paymentAccountEmail == null || mainRepEmail == null
                 || password == null|| otherRepNames == null|| otherRepEmails == null){
             logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
         }
-        for(int i = 0; i < context.getUserState().getAllUsers().size(); i++) {
-            if (context.getUserState().getAllUsers().get(i).getEmail() == mainRepEmail) {
+
+        Map<String, User> allUsers = context.getUserState().getAllUsers();
+        for(int i = 0; i < allUsers.size(); i++) {
+            User currUser = allUsers.get(String.valueOf(i));
+            if (currUser.getEmail() == mainRepEmail) {
                 this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
                 break;
             }

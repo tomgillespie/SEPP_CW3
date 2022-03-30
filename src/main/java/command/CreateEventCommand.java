@@ -34,6 +34,7 @@ public abstract class CreateEventCommand extends Object implements ICommand{
             return true;
         }
     }
+    @Override
     public Long getResult(){
         if (logStatus == LogStatus.CREATE_EVENT_USER_NOT_ENTERTAINMENT_PROVIDER || logStatus == LogStatus.CREATE_EVENT_USER_NOT_LOGGED_IN){
             return null;

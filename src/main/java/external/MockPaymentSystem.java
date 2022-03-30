@@ -1,9 +1,11 @@
 package external;
 
 public class MockPaymentSystem implements PaymentSystem{
+    private String buyerAccountEmail;
+    private String sellerAccountEmail;
+    private double transactionAmount;
 
-    public MockEntertainmentProviderSystem(){
-
+    public MockPaymentSystem(){
     }
 
     @Override

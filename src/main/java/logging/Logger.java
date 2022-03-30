@@ -25,6 +25,11 @@ public class Logger {
         return log;
     }
     public void clearLog(){
-        log.clear();
+        if (log == null){
+            this.log = null;
+        }
+        else {
+            this.log.clear();
+        }
     }
 }

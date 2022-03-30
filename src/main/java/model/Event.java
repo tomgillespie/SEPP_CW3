@@ -18,6 +18,7 @@ public abstract class Event {
         this.organiser = organiser;
         this.title = title;
         this.type = type;
+        this.performances = Map.of();
     }
 
     public long getEventNumber(){

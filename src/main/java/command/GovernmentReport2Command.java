@@ -53,7 +53,7 @@ public class GovernmentReport2Command extends Object implements ICommand{
     }
 
     @Override
-    public Object getResult() {
+    public List<Consumer> getResult() {
         if (logStatus == LogStatus.CONSUMER_REPORT_SUCCESS){
             return consumerListResult;
         }

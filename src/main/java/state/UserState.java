@@ -9,10 +9,16 @@ import java.util.Map;
 public class UserState implements IUserState {
     private HashMap<String, User> users;
     private User currentUser;
+    private int userNumber;
 
     public UserState(){
-        currentUser = null;
-        users = null;
+        this.currentUser = null;
+        this.users = new HashMap<>();
+        this.userNumber = 0;
+        GovernmentRepresentative governmentRepresentative1 = new GovernmentRepresentative("gov1@gov.uk", "Gov123", "gov1pay@gov.uk");
+        GovernmentRepresentative governmentRepresentative2 = new GovernmentRepresentative("gov2@gov.uk", "Gov456", "gov2pay@gov.uk");
+        addUser(governmentRepresentative1);
+        addUser(governmentRepresentative2);
         //Add government representatives
     }
 
@@ -24,7 +30,8 @@ public class UserState implements IUserState {
 
     @Override
     public void addUser(User user) {
-        this.users.put(user.getEmail(), user);
+        this.users.put(String.valueOf(userNumber), user);
+        this.userNumber = this.userNumber + 1;
     }
 
     @Override
