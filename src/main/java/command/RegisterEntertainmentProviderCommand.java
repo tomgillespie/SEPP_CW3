@@ -78,7 +78,11 @@ public class RegisterEntertainmentProviderCommand extends Object implements ICom
     public Object getResult() {
         if (logStatus == LogStatus.REGISTER_ENTERTAINMENT_PROVIDER_SUCCESS || logStatus == LogStatus.USER_LOGIN_SUCCESS){
             return newEntertainmentProviderResult;
+            //need to change entertainment providor class to remove email
+
         }
         else return null;
     }
+
+
 }

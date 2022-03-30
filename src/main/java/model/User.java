@@ -1,4 +1,5 @@
 package model;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
@@ -18,7 +19,7 @@ public abstract class User {
         return email;
     }
 
-    public void SetEmail(String newEmail){
+    public void setEmail(String newEmail){
         this.email = newEmail;
     }
 
