@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Event {
@@ -55,7 +56,7 @@ public abstract class Event {
         return performances.get(performanceNumber);
     }
 
-    public Collection<EventPerformance> getPerformances(){
-        return (Collection<EventPerformance>) performances;
+    public Map<Long,EventPerformance> getPerformances(){
+        return performances;
     }
 }

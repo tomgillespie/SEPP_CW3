@@ -49,7 +49,7 @@ public class BookEventCommand implements ICommand{
         if (numTicketsRequested < 1){
             this.logStatus = LogStatus.BOOK_EVENT_INVALID_NUM_TICKETS;
         }
-        if (!(context.getEventState().findEventByNumber(eventNumber).getPerformances().contains(performanceNumber))){
+        if (!(context.getEventState().findEventByNumber(eventNumber).getPerformances().containsKey(performanceNumber))){
             this.logStatus = LogStatus.BOOK_EVENT_PERFORMANCE_NOT_FOUND;
         }
         if (!(context.getEventState().findEventByNumber(eventNumber).getPerformanceByNumber(performanceNumber).getEndDateTime().isAfter(java.time.LocalDateTime.now()))){

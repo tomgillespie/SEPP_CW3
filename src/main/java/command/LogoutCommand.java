@@ -19,7 +19,6 @@ public class LogoutCommand extends Object implements ICommand{
             this.logStatus = LogStatus.USER_LOGOUT_NOT_LOGGED_IN;
         }
         else {
-            // Not sure on this, but thinking that if current user is set to null, then they're sort of loggee
             context.getUserState().setCurrentUser(null);
             this.logStatus = LogStatus.USER_LOGOUT_SUCCESS;
         }

@@ -14,6 +14,8 @@ import java.util.List;
 public class BookingState implements IBookingState{
     private long nextBookingNumber;
     private ArrayList<Booking> bookings;
+    private Booking correctBooking;
+
     public BookingState(){
         this.bookings = null;
         this.nextBookingNumber = 1;
@@ -35,10 +37,9 @@ public class BookingState implements IBookingState{
 
     @Override
     public Booking findBookingByNumber(long bookingNumber) {
-        Booking correctBooking = null;
         for (int i = 0; i < bookings.size(); i++) {
             if (bookings.get(i).getBookingNumber() == bookingNumber){
-                correctBooking = bookings.get(i);
+                this.correctBooking = bookings.get(i);
             }
         }
         return correctBooking;

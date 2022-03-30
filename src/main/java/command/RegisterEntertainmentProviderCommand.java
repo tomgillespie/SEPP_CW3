@@ -60,16 +60,20 @@ public class RegisterEntertainmentProviderCommand extends Object implements ICom
                 break;
             }
         }
-        if(logStatus != LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED || logStatus!= LogStatus.USER_REGISTER_ORG_ALREADY_REGISTERED){
+        if(logStatus != LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED && logStatus!= LogStatus.USER_REGISTER_ORG_ALREADY_REGISTERED && logStatus != LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL){
             this.logStatus = LogStatus.REGISTER_ENTERTAINMENT_PROVIDER_SUCCESS;
             this.newEntertainmentProviderResult = new EntertainmentProvider(orgName, orgAddress, mainRepName, mainRepEmail, otherRepNames, otherRepEmails, mainRepEmail, password, paymentAccountEmail);
             context.getUserState().addUser(newEntertainmentProviderResult);
             context.getUserState().setCurrentUser(newEntertainmentProviderResult);
+            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
         }
     }
 
     @Override
     public Object getResult() {
-        return null;
+        if (logStatus == LogStatus.REGISTER_ENTERTAINMENT_PROVIDER_SUCCESS || logStatus == LogStatus.USER_LOGIN_SUCCESS){
+            return newEntertainmentProviderResult;
+        }
+        else return null;
     }
 }

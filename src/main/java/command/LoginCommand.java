@@ -16,7 +16,7 @@ public class LoginCommand extends Object implements ICommand{
         USER_LOGIN_WRONG_PASSWORD
     }
 
-    LoginCommand(String email, String password){
+    public LoginCommand(String email, String password){
         this.email = email;
         this.password = password;
     }
@@ -26,13 +26,14 @@ public class LoginCommand extends Object implements ICommand{
         if (context.getUserState().getCurrentUser().getEmail() != email){
             this.logStatus = LogStatus.USER_LOGIN_EMAIL_NOT_REGISTERED;
         }
-        if ((context.getUserState().getCurrentUser().getEmail() == email) && (context.getUserState().getCurrentUser().checkPasswordMatch(password) == true)){
-            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
-        }
         if (context.getUserState().getCurrentUser().checkPasswordMatch(password) == false){
             this.logStatus = LogStatus.USER_LOGIN_WRONG_PASSWORD;
         }
-        this.userResult = context.getUserState().getCurrentUser();
+        if ((context.getUserState().getCurrentUser().getEmail() == email) && (context.getUserState().getCurrentUser().checkPasswordMatch(password) == true)){
+            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
+            this.userResult = context.getUserState().getCurrentUser();
+        }
+
     }
 
     @Override
