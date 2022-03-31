@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserState implements IUserState {
-    private HashMap<String, User> users;
+    private Map<String, User> users;
     private User currentUser;
 
     public UserState(){
@@ -22,7 +22,7 @@ public class UserState implements IUserState {
 
     public UserState(IUserState other){
         this.currentUser = other.getCurrentUser();
-        this.users = (HashMap<String, User>) other.getAllUsers();
+        this.users = (Map<String, User>) other.getAllUsers();
     }
 
 
