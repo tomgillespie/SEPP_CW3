@@ -2,6 +2,10 @@ package command;
 
 import controller.Context;
 import model.Consumer;
+import model.User;
+
+import java.util.List;
+import java.util.Map;
 
 public class RegisterConsumerCommand extends Object implements ICommand{
 
@@ -33,8 +37,9 @@ public class RegisterConsumerCommand extends Object implements ICommand{
         if (name == null || email == null || phoneNumber == null || password == null || paymentAccountEmail == null) {
             this.logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
         }
-        for(int i = 0; i < context.getUserState().getAllUsers().size(); i++){
-            if (context.getUserState().getAllUsers().get(i).getEmail() == email){
+        Map<String, User> allUsers = context.getUserState().getAllUsers();
+        for(int i = 0; i < allUsers.size(); i++){
+            if (allUsers.get(String.valueOf(i)).getEmail() == email){
                 this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
                 break;
             }
@@ -46,13 +51,13 @@ public class RegisterConsumerCommand extends Object implements ICommand{
             this.newConsumerResult = new Consumer(name, phoneNumber, email, password, paymentAccountEmail);
             context.getUserState().addUser(newConsumerResult);
             context.getUserState().setCurrentUser(newConsumerResult);
+            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
         }
     }
 
     @Override
     public Object getResult() {
-        if (logStatus == LogStatus.REGISTER_CONSUMER_SUCCESS){
-            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
+        if (logStatus == LogStatus.USER_LOGIN_SUCCESS){
             return newConsumerResult;
         }
         else return null;

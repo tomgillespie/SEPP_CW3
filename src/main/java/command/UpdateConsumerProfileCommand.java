@@ -22,7 +22,7 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
 
     }
 
-    UpdateConsumerProfileCommand(String oldPassword, String newName, String newEmail, String newPhoneNumber,
+    public UpdateConsumerProfileCommand(String oldPassword, String newName, String newEmail, String newPhoneNumber,
                                  String newPassword, String newPaymentAccountEmail, ConsumerPreferences newPreferences){
         this.oldPassword = oldPassword;
         this.newName = newName;
@@ -36,24 +36,24 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
     @Override
     public void execute(Context context) {
         if(oldPassword == null || newName == null || newEmail == null || newPhoneNumber == null || newPassword == null ||
-        newPaymentAccountEmail == null || newPreferences == null){
-            logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+                newPaymentAccountEmail == null || newPreferences == null){
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
         }
         //implies is true
         User currUser = context.getUserState().getCurrentUser();
         if(isProfileUpdateInvalid(context, oldPassword, newEmail) && currUser instanceof Consumer){
-            logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
         }
         else{
-            logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_CONSUMER;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_CONSUMER;
         }
 
 
         if(logStatus == LogStatus.USER_UPDATE_PROFILE_SUCCESS){
             //how to make more efficient?
-            context.getUserState().getCurrentUser().setEmail(newEmail);
-            context.getUserState().getCurrentUser().updatePassword(newPassword);
-            context.getUserState().getCurrentUser().setPaymentAccountEmail(newPaymentAccountEmail);
+            currUser.setEmail(newEmail);
+            currUser.updatePassword(newPassword);
+            currUser.setPaymentAccountEmail(newPaymentAccountEmail);
             ((Consumer) currUser).setName(newName);
             ((Consumer) currUser).setPhoneNumber(newPhoneNumber);
             ((Consumer) currUser).setPreferences(newPreferences);
