@@ -18,32 +18,32 @@ public abstract class UpdateProfileCommand extends Object implements ICommand {
 
     protected boolean isProfileUpdateInvalid(Context context, String oldPassword, String newEmail) {
         if (context.getUserState().getCurrentUser() == null) {
-            logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN;
         }
         if (context.getUserState().getCurrentUser().checkPasswordMatch(oldPassword) == false) {
-            logStatus = LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD;
         }
         for (int i = 0; i < context.getUserState().getAllUsers().size(); i++) {
             if (context.getUserState().getAllUsers().get(i).getEmail() == newEmail) {
-                logStatus = LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE;
+                this.logStatus = LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE;
             }
         }
         if (logStatus == LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE || logStatus == LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD
                 || logStatus == LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN ){
-            successResult = false;
+            this.successResult = false;
             return false;
         }
         else{
             //what is success result
-            successResult = true;
+            this.successResult = true;
             return true;
         }
     }
-
+    @Override
     public Boolean getResult () {
         if(successResult = false){
-            return Boolean.FALSE;
+            return false;
         }
-        else{return Boolean.TRUE;}
+        else{return true;}
     }
 }

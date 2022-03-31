@@ -46,26 +46,26 @@ public class UpdateEntertainmentProviderProfileCommand extends UpdateProfileComm
     public void execute(Context context) {
         if (oldPassword == null || newOrgName == null || newOrgAddress == null || newPaymentAccountEmail == null || newMainRepName == null ||
                 newMainRepEmail == null || newPassword == null || newOtherRepNames == null || newOtherRepEmails == null) {
-            logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
         }
         User currUser = context.getUserState().getCurrentUser();
         if (isProfileUpdateInvalid(context, oldPassword, newMainRepEmail) && currUser instanceof EntertainmentProvider) {
-            logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
         } else {
-            logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_ENTERTAINMENT_PROVIDER;
+            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_ENTERTAINMENT_PROVIDER;
         }
 
         for (int i = 0; i < context.getUserState().getAllUsers().size(); i++) {
             User loopUser = context.getUserState().getAllUsers().get(i);
             if (loopUser instanceof EntertainmentProvider && ((EntertainmentProvider) loopUser).getOrgName().equals(newOrgName) && ((EntertainmentProvider) loopUser)
                     .getOrgAddress().equals(newOrgAddress)) {
-                logStatus = LogStatus.USER_UPDATE_PROFILE_ORG_ALREADY_REGISTERED;
+                this.logStatus = LogStatus.USER_UPDATE_PROFILE_ORG_ALREADY_REGISTERED;
             }
         }
-        if(logStatus == LogStatus.USER_UPDATE_PROFILE_SUCCESS){
-            context.getUserState().getCurrentUser().setEmail(newMainRepEmail);
-            context.getUserState().getCurrentUser().updatePassword(newPassword);
-            context.getUserState().getCurrentUser().setPaymentAccountEmail(newPaymentAccountEmail);
+        if(logStatus == LogStatus.USER_UPDATE_PROFILE_SUCCESS)
+            currUser.setEmail(newMainRepEmail);
+            currUser.updatePassword(newPassword);
+            currUser.setPaymentAccountEmail(newPaymentAccountEmail);
             ((EntertainmentProvider) currUser).setOrgName(newOrgName);
             ((EntertainmentProvider) currUser).setOrgAddress(newOrgAddress);
             ((EntertainmentProvider) currUser).setMainRepName(newMainRepName);
@@ -74,5 +74,3 @@ public class UpdateEntertainmentProviderProfileCommand extends UpdateProfileComm
         }
 
     }
-
-}
