@@ -6,6 +6,7 @@ import controller.Controller;
 import logging.Logger;
 import model.Consumer;
 import model.EntertainmentProvider;
+import model.GovernmentRepresentative;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ public class LogInSystemTest {
         System.out.println("---");
     }
 
-    private static void registerEntertainmentProvider(Controller controller){
+    private static void registerEntertainmentProvider(Controller controller) {
         controller.runCommand(new RegisterEntertainmentProviderCommand(
                 "University of Edinburgh",
                 "Appleton Tower, Edinburgh",
@@ -85,13 +86,13 @@ public class LogInSystemTest {
         controller.runCommand(new LoginCommand("pmathieson@ed.ac.uk", "hongkong"));
     }
 
-    private static void registerAndLoginEdinburgh(Controller controller){
+    private static void registerAndLoginEdinburgh(Controller controller) {
         registerEntertainmentProvider(controller);
         loginEdinburgh(controller);
     }
 
     @Test
-    void registerAndLogInEdinburghUniversityAsEntertainmentProvider(){
+    void registerAndLogInEdinburghUniversityAsEntertainmentProvider() {
         Controller controller = new Controller();
         registerEntertainmentProvider(controller);
         controller.runCommand(new LogoutCommand());
@@ -109,13 +110,15 @@ public class LogInSystemTest {
 
         assertEquals(edinburghUni.getPaymentAccountEmail(), loggerIn.getPaymentAccountEmail());
         assertEquals(edinburghUni.getEmail(), loggerIn.getEmail());
-        assertEquals(edinburghUni.getOrgName(), ((EntertainmentProvider)(loggerIn)).getOrgName());
-        assertEquals(edinburghUni.getOrgAddress(), ((EntertainmentProvider)(loggerIn)).getOrgAddress());
+        assertEquals(edinburghUni.getOrgName(), ((EntertainmentProvider) (loggerIn)).getOrgName());
+        assertEquals(edinburghUni.getOrgAddress(), ((EntertainmentProvider) (loggerIn)).getOrgAddress());
     }
+
     @Test
-    void register3UsersAndLogThemIn(){
+    void register3UsersAndLogThemIn() {
         Controller controller = new Controller();
         register3Consumers(controller);
+
         LoginCommand cmd1 = new LoginCommand("jbiggson1@hotmail.co.uk", "jbiggson2");
         controller.runCommand(cmd1);
         User loggerIn1 = (User) cmd1.getResult();
@@ -124,9 +127,60 @@ public class LogInSystemTest {
                 "077893153480",
                 "jbiggson2",
                 "jbiggson1@hotmail.co.uk");
-        assertEquals(JohnBiggson.getName(), ((Consumer)(loggerIn1)).getName());
-        assertEquals(JohnBiggson.getEmail(), ((Consumer)(loggerIn1)).getEmail());
-        assertEquals(JohnBiggson.getPaymentAccountEmail(), ((Consumer)(loggerIn1)).getPaymentAccountEmail());
-        assertEquals(JohnBiggson.getPhoneNumber(), ((Consumer)(loggerIn1)).getPhoneNumber());
+        assertEquals(JohnBiggson.getName(), ((Consumer) (loggerIn1)).getName());
+        assertEquals(JohnBiggson.getEmail(), ((Consumer) (loggerIn1)).getEmail());
+        assertEquals(JohnBiggson.getPaymentAccountEmail(), ((Consumer) (loggerIn1)).getPaymentAccountEmail());
+        assertEquals(JohnBiggson.getPhoneNumber(), ((Consumer) (loggerIn1)).getPhoneNumber());
+        controller.runCommand(new LogoutCommand());
+
+        LoginCommand cmd2 = new LoginCommand("jane@inf.ed.ac.uk", "giantsRverycool");
+        controller.runCommand(cmd2);
+        User loggerIn2 = (User) cmd2.getResult();
+        Consumer JaneGiantsdottir = new Consumer("Jane Giantsdottir",
+                "jane@inf.ed.ac.uk",
+                "04462187232",
+                "giantsRverycool",
+                "jane@aol.com");
+        assertEquals(JaneGiantsdottir.getName(), ((Consumer) (loggerIn2)).getName());
+        assertEquals(JaneGiantsdottir.getEmail(), ((Consumer) (loggerIn2)).getEmail());
+        assertEquals(JaneGiantsdottir.getPaymentAccountEmail(), ((Consumer) (loggerIn2)).getPaymentAccountEmail());
+        assertEquals(JaneGiantsdottir.getPhoneNumber(), ((Consumer) (loggerIn2)).getPhoneNumber());
+        controller.runCommand(new LogoutCommand());
+
+        LoginCommand cmd3 = new LoginCommand("i-will-kick-your@gmail.com", "it is wednesday my dudes");
+        controller.runCommand(cmd3);
+        User loggerIn3 = (User) cmd3.getResult();
+        Consumer WednesdayKebede = new Consumer("Wednesday Kebede",
+                "i-will-kick-your@gmail.com",
+                "-",
+                "it is wednesday my dudes",
+                "i-will-kick-your@gmail.com");
+        assertEquals(WednesdayKebede.getName(), ((Consumer) (loggerIn3)).getName());
+        assertEquals(WednesdayKebede.getEmail(), ((Consumer) (loggerIn3)).getEmail());
+        assertEquals(WednesdayKebede.getPaymentAccountEmail(), ((Consumer) (loggerIn3)).getPaymentAccountEmail());
+        assertEquals(WednesdayKebede.getPhoneNumber(), ((Consumer) (loggerIn3)).getPhoneNumber());
+        controller.runCommand(new LogoutCommand());
+
+    }
+
+    @Test
+    void logIn2GovernmentRepresentatives(){
+        Controller controller = new Controller();
+        LoginCommand cmd1 = new LoginCommand("gov1@gov.uk", "Gov123");
+        controller.runCommand(cmd1);
+        User loggerIn1 = (User) cmd1.getResult();
+        GovernmentRepresentative govRep1 = new GovernmentRepresentative("gov1@gov.uk", "Gov123", "gov1pay@gov.uk");
+        assertEquals(govRep1.getEmail(), loggerIn1.getEmail());
+        assertEquals(govRep1.getPaymentAccountEmail(), ((GovernmentRepresentative)(loggerIn1)).getPaymentAccountEmail());
+        controller.runCommand(new LogoutCommand());
+
+        LoginCommand cmd2 = new LoginCommand("gov2@gov.uk", "Gov456");
+        controller.runCommand(cmd2);
+        User loggerIn2 = (User) cmd2.getResult();
+        GovernmentRepresentative govRep2 = new GovernmentRepresentative("gov2@gov.uk", "Gov456", "gov2pay@gov.uk");
+        assertEquals(govRep2.getEmail(), loggerIn2.getEmail());
+        assertEquals(govRep2.getPaymentAccountEmail(), ((GovernmentRepresentative)(loggerIn2)).getPaymentAccountEmail());
+        controller.runCommand(new LogoutCommand());
+
     }
 }
