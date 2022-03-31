@@ -51,23 +51,38 @@ public class RegisterEntertainmentProviderCommand extends Object implements ICom
         }
 
         Map<String, User> allUsers = context.getUserState().getAllUsers();
-        for(int i = 0; i < allUsers.size(); i++) {
-            User currUser = allUsers.get(String.valueOf(i));
-            if (currUser.getEmail() == mainRepEmail) {
+        for (Map.Entry<String, User> entry : allUsers.entrySet()){
+            User currUser = entry.getValue();
+            if (currUser.getEmail().equals(mainRepEmail)){
                 this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
                 break;
             }
         }
-        for(int i = 0; i < context.getUserState().getAllUsers().size(); i++){
-            User currUser = context.getUserState().getAllUsers().get(i);
+        for (Map.Entry<String, User> entry: allUsers.entrySet()){
+            User currUser = entry.getValue();
             if (currUser instanceof EntertainmentProvider && ((EntertainmentProvider) currUser).getOrgName().equals(orgName) && ((EntertainmentProvider) currUser).getOrgAddress().equals(orgAddress)){
                 this.logStatus = LogStatus.USER_REGISTER_ORG_ALREADY_REGISTERED;
-                break;
             }
         }
+
+//        Map<String, User> allUsers = context.getUserState().getAllUsers();
+//        for(int i = 0; i < allUsers.size(); i++) {
+//            User currUser = allUsers.get(String.valueOf(i));
+//            if (currUser.getEmail() == mainRepEmail) {
+//                this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
+//                break;
+//            }
+//        }
+//        for(int i = 0; i < context.getUserState().getAllUsers().size(); i++){
+//            User currUser = context.getUserState().getAllUsers().get(i);
+//            if (currUser instanceof EntertainmentProvider && ((EntertainmentProvider) currUser).getOrgName().equals(orgName) && ((EntertainmentProvider) currUser).getOrgAddress().equals(orgAddress)){
+//                this.logStatus = LogStatus.USER_REGISTER_ORG_ALREADY_REGISTERED;
+//                break;
+//            }
+//        }
         if(logStatus != LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED && logStatus!= LogStatus.USER_REGISTER_ORG_ALREADY_REGISTERED && logStatus != LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL){
             this.logStatus = LogStatus.REGISTER_ENTERTAINMENT_PROVIDER_SUCCESS;
-            this.newEntertainmentProviderResult = new EntertainmentProvider(orgName, orgAddress, mainRepName, mainRepEmail, otherRepNames, otherRepEmails, mainRepEmail, password, paymentAccountEmail);
+            this.newEntertainmentProviderResult = new EntertainmentProvider(orgName, orgAddress, paymentAccountEmail, mainRepName, mainRepEmail, password, otherRepNames, otherRepEmails);
             context.getUserState().addUser(newEntertainmentProviderResult);
             context.getUserState().setCurrentUser(newEntertainmentProviderResult);
             this.logStatus = LogStatus.USER_LOGIN_SUCCESS;

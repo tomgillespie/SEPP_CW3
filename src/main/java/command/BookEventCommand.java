@@ -61,37 +61,22 @@ public class BookEventCommand implements ICommand{
         if (numTicketsLeft < numTicketsRequested){
             this.logStatus = LogStatus.BOOK_EVENT_NOT_ENOUGH_TICKETS_LEFT;
         }
-//        if (booking payment via payment system unsuccessful){
-//            this.logStatus = LogStatus.BOOK_EVENT_PAYMENT_FAILED;
-//        }
+        double ticketPrice = ((TicketedEvent)givenEvent).getOriginalTicketPrice();
+        double amountPaid = ticketPrice*numTicketsRequested;
+        String buyerAccountEmail = currUser.getPaymentAccountEmail();
+        String sellerAccountEmail = givenEvent.getOrganiser().getPaymentAccountEmail();
+        if (!(context.getPaymentSystem().processPayment(buyerAccountEmail, sellerAccountEmail, amountPaid))){
+            this.logStatus = LogStatus.BOOK_EVENT_PAYMENT_FAILED;
+        }
         if (!(givenEvent.getStatus() == EventStatus.ACTIVE)){
             this.logStatus = LogStatus.BOOK_EVENT_EVENT_NOT_ACTIVE;
         }
-        double ticketPrice = ((TicketedEvent)givenEvent).getOriginalTicketPrice();
-        double amountPaid = ticketPrice*numTicketsRequested;
         if (logStatus == null){
             this.uniqueBookingNumber = context.getBookingState().getNextBookingNumber();
             context.getBookingState().createBooking((Consumer) currUser, currEventPerformance, numTicketsRequested, amountPaid);
             this.logStatus = LogStatus.BOOK_EVENT_SUCCESS;
         }
     }
-
-//    @Override
-//    public void execute(Context context) {
-//        if (context.getUserState().getCurrentUser().getClass() == Consumer.class){} // Currently logged in user is a consumer
-//        if (context.getUserState().getCurrentUser() instanceof Consumer){} // Currently logged in user is a consumer
-//        if (context.getEventState().getAllEvents().contains(context.getEventState().getNextEventNumber())){} // Event number corresponds to an existing event
-//        if (context.getEventState().getAllEvents().contains(eventNumber)){} // Event number corresponds to an existing event
-//        if (context.getEventState().findEventByNumber(context.getEventState().getNextEventNumber()) instanceof TicketedEvent){} // Event is a ticketed event
-//        if (context.getEventState().findEventByNumber(eventNumber) instanceof TicketedEvent){} // Event is a ticketed event
-//        if (numTicketsRequested > 0){} // Number of requested tickets is not less than 1
-//        if (context.getEventState().findEventByNumber(eventNumber).getPerformances().contains(performanceNumber)){} // Performance number corresponds to an existing performance of the event
-//        if (context.getEventState().findEventByNumber(eventNumber).getPerformanceByNumber(performanceNumber).getEndDateTime().isAfter(java.time.LocalDateTime.now())){}
-////        if (numTicketsRequested < EntertainmentProviderSystem number of tickets available ){} //The requested number of tickets is still available according to the organisers Entertainment provider system
-////        if booking payment via payment method succeeds
-////        Book event
-//        this.uniqueBookingNumber = context.getBookingState().getNextBookingNumber();
-//    }
 
     @Override
     public Object getResult() {
