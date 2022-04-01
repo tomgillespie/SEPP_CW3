@@ -1,6 +1,12 @@
-testBookedEvent()
+register3UsersAndLogThemIn()
 ---
-!testBookEventNotEnoughTickets()
+#logIn2GovernmentRepresentatives()
 ---
-testNonConsumerBookedEvent()
+logInNullInputs()
 ---
+>registerAndLogInEdinburghUniversityAsEntertainmentProvider()
+---
+"registerAndLogInWithWrongEmail()
+---
+%registerAndLogInWithWrongPassword()
+---

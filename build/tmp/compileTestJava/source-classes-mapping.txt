@@ -4,5 +4,7 @@ CreateEventTest.java
  CreateEventTest
 BookEventTest.java
  BookEventTest
+RegisterConsumerTest.java
+ RegisterConsumerTest
 LogInSystemTest.java
  LogInSystemTest
