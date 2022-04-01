@@ -1,8 +1,2 @@
-"testLoggedOutUserEventCreation()
+testBookedEvent()
 ---
-test4NonTicketedEvents()
----
-testConsumerEventCreation()
----
-test4TicketedEvents()
----

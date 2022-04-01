@@ -22,6 +22,7 @@ public class CreateNonTicketedEventCommand extends CreateEventCommand {
             Event newEvent = context.getEventState().createNonTicketedEvent((EntertainmentProvider) context.getUserState().getCurrentUser(), title, type);
             this.eventNumberResult = newEvent.getEventNumber();
             this.logStatus = LogStatus.CREATE_NON_TICKETED_EVENT_SUCCESS;
+            ((EntertainmentProvider) context.getUserState().getCurrentUser()).getProviderSystem().recordNewEvent(eventNumberResult, title, 0);
         }
     }
 }

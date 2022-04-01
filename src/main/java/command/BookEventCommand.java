@@ -38,12 +38,12 @@ public class BookEventCommand implements ICommand{
         User currUser = context.getUserState().getCurrentUser();
         List<Event> allEvents = context.getEventState().getAllEvents();
         Event givenEvent = context.getEventState().findEventByNumber(eventNumber);
-        EventPerformance currEventPerformance = context.getEventState().findEventByNumber(eventNumber).getPerformanceByNumber(performanceNumber);
-        Integer numTicketsLeft = context.getEventState().findEventByNumber(eventNumber).getOrganiser().getProviderSystem().getNumTicketsLeft(eventNumber, performanceNumber);
+        EventPerformance currEventPerformance = givenEvent.getPerformanceByNumber(performanceNumber);
+        Integer numTicketsLeft = givenEvent.getOrganiser().getProviderSystem().getNumTicketsLeft(eventNumber, performanceNumber);
         if (!(currUser instanceof Consumer)){
             this.logStatus = LogStatus.BOOK_EVENT_USER_NOT_CONSUMER;
         }
-        if (!(allEvents.contains(eventNumber))){
+        if (!(allEvents.contains(context.getEventState().findEventByNumber(eventNumber)))){
             this.logStatus = LogStatus.BOOK_EVENT_EVENT_NOT_FOUND;
         }
         if (!(givenEvent instanceof TicketedEvent)){
@@ -75,6 +75,8 @@ public class BookEventCommand implements ICommand{
             this.uniqueBookingNumber = context.getBookingState().getNextBookingNumber();
             context.getBookingState().createBooking((Consumer) currUser, currEventPerformance, numTicketsRequested, amountPaid);
             this.logStatus = LogStatus.BOOK_EVENT_SUCCESS;
+            context.getEventState().findEventByNumber(eventNumber).getOrganiser().getProviderSystem().recordNewBooking(eventNumber,performanceNumber,
+                    uniqueBookingNumber, ((Consumer) currUser).getName(), currUser.getEmail(), numTicketsRequested);
         }
     }
 

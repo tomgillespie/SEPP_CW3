@@ -28,6 +28,7 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
             Event newEvent = context.getEventState().createTicketedEvent((EntertainmentProvider) context.getUserState().getCurrentUser(), title, type, ticketPrice, numTickets);
             this.eventNumberResult = newEvent.getEventNumber();
             this.logStatus = LogStatus.CREATE_TICKETED_EVENT_SUCCESS;
+            ((EntertainmentProvider) context.getUserState().getCurrentUser()).getProviderSystem().recordNewEvent(eventNumberResult, title, numTickets);
         }
     }
 }

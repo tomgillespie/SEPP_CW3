@@ -1,7 +1,9 @@
 package model;
 
 import external.EntertainmentProviderSystem;
+import external.MockEntertainmentProviderSystem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntertainmentProvider extends User {
@@ -29,6 +31,8 @@ public class EntertainmentProvider extends User {
         this.mainRepEmail = mainRepEmail;
         this.otherRepNames = otherRepNames;
         this.otherRepEmails = otherRepEmails;
+        this.events = new ArrayList<>();
+        this.entertainmentProviderSystem = new MockEntertainmentProviderSystem(orgName, orgAddress);
     }
     public void addEvent(Event event){
         events.add(event);

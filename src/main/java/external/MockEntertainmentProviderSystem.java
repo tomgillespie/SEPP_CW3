@@ -20,10 +20,10 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
     public MockEntertainmentProviderSystem(String orgName, String orgAddress){
         this.orgName = orgName;
         this.orgAddress = orgAddress;
-        this.eventMap = Map.of();
-        this.bookingToTicketsMap = Map.of();
-        this.bookingToEventMap = Map.of();
-        this.performanceMap = Map.of();
+        this.eventMap = new HashMap<>();
+        this.bookingToTicketsMap = new HashMap<>();
+        this.bookingToEventMap = new HashMap<>();
+        this.performanceMap = new HashMap<>();
     }
 
     @Override
