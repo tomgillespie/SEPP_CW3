@@ -1,2 +1,6 @@
 testBookedEvent()
 ---
+!testBookEventNotEnoughTickets()
+---
+testNonConsumerBookedEvent()
+---
