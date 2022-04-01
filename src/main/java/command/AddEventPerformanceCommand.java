@@ -8,6 +8,7 @@ import model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class AddEventPerformanceCommand extends Object implements ICommand{
 
@@ -60,13 +61,13 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
         if (venueSize < 1){
             this.logStatus = LogStatus.ADD_PERFORMANCE_VENUE_SIZE_LESS_THAN_1;
         }
-        if (!(context.getUserState().getCurrentUser() == null)){
+        if (context.getUserState().getCurrentUser() == null){
             this.logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_LOGGED_IN;
         }
         if (!(context.getUserState().getCurrentUser() instanceof EntertainmentProvider)){
             this.logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_ENTERTAINMENT_PROVIDER;
         }
-        if (!(context.getEventState().getAllEvents().contains(eventNumber))){
+        if (!(context.getEventState().getAllEvents().contains(context.getEventState().findEventByNumber(eventNumber)))){
             this.logStatus = LogStatus.ADD_PERFORMANCE_EVENT_NOT_FOUND;
         }
         User currUser = context.getUserState().getCurrentUser();
@@ -78,9 +79,10 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
         Event currEvent = context.getEventState().findEventByNumber(eventNumber);
         for (int i = 0; i < allEvents.size(); i++){
             if (allEvents.get(i).getTitle().equals(currEvent.getTitle())){
-                for (int j = 0; j < allEvents.get(i).getPerformances().size(); j++){
-                    EventPerformance currPerformance = allEvents.get(i).getPerformances().get(j);
-                    if (currPerformance.getStartDateTime().equals(startDateTime) && (currPerformance.getEndDateTime().equals(endDateTime))) {
+                Map<Long, EventPerformance> performanceMap = allEvents.get(i).getPerformances();
+                for (Map.Entry<Long, EventPerformance> entry: performanceMap.entrySet()){
+                    EventPerformance currPerformance = entry.getValue();
+                    if (currPerformance.getStartDateTime().equals(startDateTime) && currPerformance.getEndDateTime().equals(endDateTime)){
                         this.logStatus = LogStatus.ADD_PERFORMANCE_EVENTS_WITH_SAME_TITLE_CLASH;
                         break;
                     }
@@ -89,8 +91,8 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
         }
         if (logStatus == null){
             this.logStatus = LogStatus.ADD_PERFORMANCE_SUCCESS;
-            eventPerformanceResult = context.getEventState().createEventPerformance(context.getEventState().findEventByNumber(eventNumber), venueAddress, startDateTime, endDateTime, performerNames, hasSocialDistancing, hasAirFiltration, isOutdoors, capacityLimit, venueSize);
-            context.getEventState().findEventByNumber(eventNumber).addPerformance(eventPerformanceResult);
+            Event testEvent = context.getEventState().findEventByNumber(eventNumber);
+            this.eventPerformanceResult = context.getEventState().createEventPerformance(context.getEventState().findEventByNumber(eventNumber), venueAddress, startDateTime, endDateTime, performerNames, hasSocialDistancing, hasAirFiltration, isOutdoors, capacityLimit, venueSize);
         }
     }
 
@@ -99,6 +101,6 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
         if (logStatus == LogStatus.ADD_PERFORMANCE_SUCCESS){
             return eventPerformanceResult;
         }
-        else return false;
+        else return null;
     }
 }

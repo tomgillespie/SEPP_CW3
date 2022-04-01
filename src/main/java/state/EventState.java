@@ -57,7 +57,7 @@ public class EventState implements IEventState{
     public EventPerformance createEventPerformance(Event event, String venueAddress, LocalDateTime startDateTime, LocalDateTime endDateTime, List<String> performerNames, boolean hasSocialDistancing, boolean hasAirFiltration, boolean isOutdoors, int capacityLimit, int venueSize) {
         EventPerformance newEventPerformance = new EventPerformance(nextPerformanceNumber, event, venueAddress, startDateTime, endDateTime, performerNames, hasSocialDistancing, hasAirFiltration, isOutdoors, capacityLimit, venueSize);
         event.addPerformance(newEventPerformance);
-        nextPerformanceNumber = nextPerformanceNumber + 1;
+        this.nextPerformanceNumber = nextPerformanceNumber + 1;
         return newEventPerformance;
     }
 

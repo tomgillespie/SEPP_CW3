@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public abstract class Event {
         this.organiser = organiser;
         this.title = title;
         this.type = type;
-        this.performances = Map.of();
+        this.performances = new HashMap<>();
     }
 
     public long getEventNumber(){
@@ -45,12 +46,8 @@ public abstract class Event {
         eventStatus = EventStatus.CANCELLED;
     }
 
-    public Long createMapKey(){
-        return Long.valueOf(performances.size());
-    }
-
     public void addPerformance(EventPerformance performance){
-        performances.put(createMapKey(),performance);
+        this.performances.put(performance.getPerformanceNumber(),performance);
     }
 
     public EventPerformance getPerformanceByNumber(long performanceNumber){
