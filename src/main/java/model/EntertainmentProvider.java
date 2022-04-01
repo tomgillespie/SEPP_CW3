@@ -14,8 +14,15 @@ public class EntertainmentProvider extends User {
     private List<Event> events;
     private EntertainmentProviderSystem entertainmentProviderSystem;
 
-    public EntertainmentProvider(String orgName, String orgAddress, String mainRepName, String mainRepEmail, List<String> otherRepNames, List<String> otherRepEmails, String email, String password, String paymentAccountEmail) {
-        super(email, password, paymentAccountEmail);
+    public EntertainmentProvider(String orgName,
+                                  String orgAddress,
+                                  String paymentAccountEmail,
+                                  String mainRepName,
+                                  String mainRepEmail,
+                                  String password,
+                                  List<String> otherRepNames,
+                                  List<String> otherRepEmails) {
+        super(mainRepEmail, password, paymentAccountEmail);
         this.orgName = orgName;
         this.orgAddress = orgAddress;
         this.mainRepName = mainRepName;

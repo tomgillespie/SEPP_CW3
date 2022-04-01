@@ -39,20 +39,6 @@ public class LoginCommand extends Object implements ICommand{
         }
     }
 
-//    @Override
-//    public void execute(Context context){
-//        if (!(context.getUserState().getAllUsers().containsKey(email))){
-//            this.logStatus = LogStatus.USER_LOGIN_EMAIL_NOT_REGISTERED;
-//        }
-//        if (context.getUserState().getCurrentUser().checkPasswordMatch(password) == false){
-//            this.logStatus = LogStatus.USER_LOGIN_WRONG_PASSWORD;
-//        }
-//        if ((context.getUserState().getAllUsers().containsKey(email)) && (context.getUserState().getCurrentUser().checkPasswordMatch(password) == true)){
-//            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
-//            this.userResult = context.getUserState().getCurrentUser();
-//        }
-//
-//    }
 
     @Override
     public Object getResult(){

@@ -38,8 +38,9 @@ public class RegisterConsumerCommand extends Object implements ICommand{
             this.logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
         }
         Map<String, User> allUsers = context.getUserState().getAllUsers();
-        for(int i = 0; i < allUsers.size(); i++){
-            if (allUsers.get(String.valueOf(i)).getEmail() == email){
+        for (Map.Entry<String, User> entry : allUsers.entrySet()){
+            User currUser = entry.getValue();
+            if (currUser.getEmail().equals(email)){
                 this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
                 break;
             }
@@ -48,7 +49,7 @@ public class RegisterConsumerCommand extends Object implements ICommand{
             }
         }
         if (logStatus == LogStatus.REGISTER_CONSUMER_SUCCESS){
-            this.newConsumerResult = new Consumer(name, phoneNumber, email, password, paymentAccountEmail);
+            this.newConsumerResult = new Consumer(name, email, phoneNumber, password, paymentAccountEmail);
             context.getUserState().addUser(newConsumerResult);
             context.getUserState().setCurrentUser(newConsumerResult);
             this.logStatus = LogStatus.USER_LOGIN_SUCCESS;

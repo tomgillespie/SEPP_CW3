@@ -2,19 +2,17 @@ package command;
 
 import controller.Context;
 import external.EntertainmentProviderSystem;
-import model.Consumer;
-import model.EventStatus;
-import model.TicketedEvent;
-import model.User;
+import model.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class BookEventCommand implements ICommand{
     private long eventNumber;
     private long performanceNumber;
     private int numTicketsRequested;
     private LogStatus logStatus;
-    private long uniqueBookingNumber;
+    private Long uniqueBookingNumber;
 
     public BookEventCommand(long eventNumber, long performanceNumber, int numTicketsRequested){
         this.eventNumber = eventNumber;
@@ -37,55 +35,48 @@ public class BookEventCommand implements ICommand{
 
     @Override
     public void execute(Context context){
-        if (!(context.getUserState().getCurrentUser() instanceof Consumer)){
+        User currUser = context.getUserState().getCurrentUser();
+        List<Event> allEvents = context.getEventState().getAllEvents();
+        Event givenEvent = context.getEventState().findEventByNumber(eventNumber);
+        EventPerformance currEventPerformance = context.getEventState().findEventByNumber(eventNumber).getPerformanceByNumber(performanceNumber);
+        Integer numTicketsLeft = context.getEventState().findEventByNumber(eventNumber).getOrganiser().getProviderSystem().getNumTicketsLeft(eventNumber, performanceNumber);
+        if (!(currUser instanceof Consumer)){
             this.logStatus = LogStatus.BOOK_EVENT_USER_NOT_CONSUMER;
         }
-        if (!(context.getEventState().getAllEvents().contains(eventNumber))){
+        if (!(allEvents.contains(eventNumber))){
             this.logStatus = LogStatus.BOOK_EVENT_EVENT_NOT_FOUND;
         }
-        if (!(context.getEventState().findEventByNumber(context.getEventState().getNextEventNumber()) instanceof TicketedEvent)){
+        if (!(givenEvent instanceof TicketedEvent)){
             this.logStatus = LogStatus.BOOK_EVENT_NOT_A_TICKETED_EVENT;
         }
         if (numTicketsRequested < 1){
             this.logStatus = LogStatus.BOOK_EVENT_INVALID_NUM_TICKETS;
         }
-        if (!(context.getEventState().findEventByNumber(eventNumber).getPerformances().containsKey(performanceNumber))){
+        if (!(givenEvent.getPerformances().containsKey(performanceNumber))){
             this.logStatus = LogStatus.BOOK_EVENT_PERFORMANCE_NOT_FOUND;
         }
-        if (!(context.getEventState().findEventByNumber(eventNumber).getPerformanceByNumber(performanceNumber).getEndDateTime().isAfter(java.time.LocalDateTime.now()))){
+        if (!(givenEvent.getPerformanceByNumber(performanceNumber).getEndDateTime().isAfter(java.time.LocalDateTime.now()))){
             this.logStatus = LogStatus.BOOK_EVENT_ALREADY_OVER;
         }
-//        if (requested no. tickets unavailable according to EntertainmentProviderSystem){
-//            this.logStatus = LogStatus.BOOK_EVENT_NOT_ENOUGH_TICKETS_LEFT;
-//        }
-//        if (booking payment via payment system unsuccessful){
-//            this.logStatus = LogStatus.BOOK_EVENT_PAYMENT_FAILED;
-//        }
-        if (!(context.getEventState().findEventByNumber(eventNumber).getStatus() == EventStatus.ACTIVE)){
+        if (numTicketsLeft < numTicketsRequested){
+            this.logStatus = LogStatus.BOOK_EVENT_NOT_ENOUGH_TICKETS_LEFT;
+        }
+        double ticketPrice = ((TicketedEvent)givenEvent).getOriginalTicketPrice();
+        double amountPaid = ticketPrice*numTicketsRequested;
+        String buyerAccountEmail = currUser.getPaymentAccountEmail();
+        String sellerAccountEmail = givenEvent.getOrganiser().getPaymentAccountEmail();
+        if (!(context.getPaymentSystem().processPayment(buyerAccountEmail, sellerAccountEmail, amountPaid))){
+            this.logStatus = LogStatus.BOOK_EVENT_PAYMENT_FAILED;
+        }
+        if (!(givenEvent.getStatus() == EventStatus.ACTIVE)){
             this.logStatus = LogStatus.BOOK_EVENT_EVENT_NOT_ACTIVE;
         }
-        else{
-            this.logStatus = LogStatus.BOOK_EVENT_SUCCESS;
+        if (logStatus == null){
             this.uniqueBookingNumber = context.getBookingState().getNextBookingNumber();
+            context.getBookingState().createBooking((Consumer) currUser, currEventPerformance, numTicketsRequested, amountPaid);
+            this.logStatus = LogStatus.BOOK_EVENT_SUCCESS;
         }
     }
-
-//    @Override
-//    public void execute(Context context) {
-//        if (context.getUserState().getCurrentUser().getClass() == Consumer.class){} // Currently logged in user is a consumer
-//        if (context.getUserState().getCurrentUser() instanceof Consumer){} // Currently logged in user is a consumer
-//        if (context.getEventState().getAllEvents().contains(context.getEventState().getNextEventNumber())){} // Event number corresponds to an existing event
-//        if (context.getEventState().getAllEvents().contains(eventNumber)){} // Event number corresponds to an existing event
-//        if (context.getEventState().findEventByNumber(context.getEventState().getNextEventNumber()) instanceof TicketedEvent){} // Event is a ticketed event
-//        if (context.getEventState().findEventByNumber(eventNumber) instanceof TicketedEvent){} // Event is a ticketed event
-//        if (numTicketsRequested > 0){} // Number of requested tickets is not less than 1
-//        if (context.getEventState().findEventByNumber(eventNumber).getPerformances().contains(performanceNumber)){} // Performance number corresponds to an existing performance of the event
-//        if (context.getEventState().findEventByNumber(eventNumber).getPerformanceByNumber(performanceNumber).getEndDateTime().isAfter(java.time.LocalDateTime.now())){}
-////        if (numTicketsRequested < EntertainmentProviderSystem number of tickets available ){} //The requested number of tickets is still available according to the organisers Entertainment provider system
-////        if booking payment via payment method succeeds
-////        Book event
-//        this.uniqueBookingNumber = context.getBookingState().getNextBookingNumber();
-//    }
 
     @Override
     public Object getResult() {
