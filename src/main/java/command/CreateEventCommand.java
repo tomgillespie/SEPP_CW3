@@ -22,12 +22,12 @@ public abstract class CreateEventCommand extends Object implements ICommand{
         this.type = type;
     }
     protected boolean isUserAllowedToCreateEvent(Context context){
-        if (!(context.getUserState().getCurrentUser() instanceof EntertainmentProvider)){
-            logStatus = LogStatus.CREATE_EVENT_USER_NOT_ENTERTAINMENT_PROVIDER;
-            return false;
-        }
         if (context.getUserState().getCurrentUser() == null){
             logStatus = LogStatus.CREATE_EVENT_USER_NOT_LOGGED_IN;
+            return false;
+        }
+        if (!(context.getUserState().getCurrentUser() instanceof EntertainmentProvider)){
+            logStatus = LogStatus.CREATE_EVENT_USER_NOT_ENTERTAINMENT_PROVIDER;
             return false;
         }
         else {

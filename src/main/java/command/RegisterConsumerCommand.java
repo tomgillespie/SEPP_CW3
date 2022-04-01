@@ -44,11 +44,9 @@ public class RegisterConsumerCommand extends Object implements ICommand{
                 this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
                 break;
             }
-            else {
-                this.logStatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
-            }
         }
-        if (logStatus == LogStatus.REGISTER_CONSUMER_SUCCESS){
+        if (logStatus == null){
+            this.logStatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
             this.newConsumerResult = new Consumer(name, email, phoneNumber, password, paymentAccountEmail);
             context.getUserState().addUser(newConsumerResult);
             context.getUserState().setCurrentUser(newConsumerResult);
