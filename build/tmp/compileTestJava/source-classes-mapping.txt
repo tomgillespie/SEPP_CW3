@@ -2,9 +2,13 @@ GovernmentReport2SystemTest.java
  GovernmentReport2SystemTest
 CreateEventTest.java
  CreateEventTest
-BookEventTest.java
- BookEventTest
 RegisterConsumerTest.java
  RegisterConsumerTest
+RequestBookingRecordsTest.java
+ RequestBookingRecordsTest
+BookEventTest.java
+ BookEventTest
 LogInSystemTest.java
  LogInSystemTest
+RegisterEntertainmentProviderTest.java
+ RegisterEntertainmentProviderTest

@@ -77,6 +77,8 @@ public class BookEventCommand implements ICommand{
             this.logStatus = LogStatus.BOOK_EVENT_SUCCESS;
             context.getEventState().findEventByNumber(eventNumber).getOrganiser().getProviderSystem().recordNewBooking(eventNumber,performanceNumber,
                     uniqueBookingNumber, ((Consumer) currUser).getName(), currUser.getEmail(), numTicketsRequested);
+            Booking latestBooking = context.getBookingState().findBookingByNumber(uniqueBookingNumber);
+            ((Consumer)(currUser)).addBooking(latestBooking);
         }
     }
 

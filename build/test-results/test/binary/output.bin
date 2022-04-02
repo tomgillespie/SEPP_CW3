@@ -1,12 +1,2 @@
-register3UsersAndLogThemIn()
+"getConsumersWithActiveBookings()
 ---
-#logIn2GovernmentRepresentatives()
----
-logInNullInputs()
----
->registerAndLogInEdinburghUniversityAsEntertainmentProvider()
----
-"registerAndLogInWithWrongEmail()
----
-%registerAndLogInWithWrongPassword()
----

@@ -15,8 +15,10 @@ public class UserState implements IUserState {
         this.users = new HashMap<>();
         GovernmentRepresentative governmentRepresentative1 = new GovernmentRepresentative("gov1@gov.uk", "Gov123", "gov1pay@gov.uk");
         GovernmentRepresentative governmentRepresentative2 = new GovernmentRepresentative("gov2@gov.uk", "Gov456", "gov2pay@gov.uk");
+        GovernmentRepresentative governmentRepresentative3 = new GovernmentRepresentative("margaret.thatcher@gov.uk", "The Good times  ", "ding.dong@gov.uk");
         addUser(governmentRepresentative1);
         addUser(governmentRepresentative2);
+        addUser(governmentRepresentative3);
         //Add government representatives
     }
 

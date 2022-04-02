@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-
 public class RegisterEntertainmentProviderTest {
     @BeforeEach
     void printTestName(TestInfo testInfo) {
@@ -58,11 +57,75 @@ public class RegisterEntertainmentProviderTest {
     }
     @Test
     void nullInputs(){
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand cmd1 = new
+                RegisterEntertainmentProviderCommand(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                List.of(),
+                List.of());
+        controller.runCommand(cmd1);
+        User register1 = (User) cmd1.getResult();
+        assertNull((((EntertainmentProvider)(register1))));
     }
     @Test
     void sameEmail(){
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand cmd1 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome",
+                "bowling@ed.ac.uk",
+                "barry bowling",
+                "barry@ed.ac.uk",
+                "10 pin king",
+                List.of("strike", "spare"),
+                List.of("spare@ed.ac.uk"));
+        controller.runCommand(cmd1);
+        RegisterEntertainmentProviderCommand cmd2 = new
+                RegisterEntertainmentProviderCommand(
+                "better bowling club",
+                "the bowladrome 2.0",
+                "bowling@ed.ac.uk",
+                "jeremeny clarkston ",
+                "barry@ed.ac.uk",
+                "10 pin king",
+                List.of("strike", "spare"),
+                List.of("spare@ed.ac.uk"));
+        controller.runCommand(cmd2);
+        User register2 = (User) cmd2.getResult();
+        assertNull((EntertainmentProvider)(register2));
     }
     @Test
     void sameOrgNameAndOrgAddress() {
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand cmd1 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome",
+                "bowling@ed.ac.uk",
+                "barry bowling",
+                "barry@ed.ac.uk",
+                "10 pin king",
+                List.of("strike", "spare"),
+                List.of("spare@ed.ac.uk"));
+        controller.runCommand(cmd1);
+        RegisterEntertainmentProviderCommand cmd2 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome",
+                "bowling2000@ed.ac.uk",
+                "different name ",
+                "differentemail@ed.ac.uk",
+                "10 pin king",
+                List.of("new_strike", "spare"),
+                List.of("spare_strike@ed.ac.uk"));
+        controller.runCommand(cmd2);
+        User register2 = (User) cmd2.getResult();
+        assertNull((EntertainmentProvider)(register2));
     }
 }

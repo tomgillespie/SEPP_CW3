@@ -59,6 +59,7 @@ public class BookingState implements IBookingState{
     @Override
     public Booking createBooking(Consumer booker, EventPerformance performance, int numTickets, double amountPaid) {
         Booking newBooking = new Booking(nextBookingNumber, booker, performance, numTickets, amountPaid, java.time.LocalDateTime.now());
+        this.bookings.add(newBooking);
         nextBookingNumber = nextBookingNumber + 1;
         // Add to booking state
         return newBooking;
