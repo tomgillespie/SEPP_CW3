@@ -1,10 +1,12 @@
 package command;
 
 import controller.Context;
+import logging.Logger;
+import model.User;
 
 public abstract class UpdateProfileCommand extends Object implements ICommand {
     protected Boolean successResult;
-    private LogStatus logStatus;
+//    private LogStatus logStatus;
 
     public
     enum LogStatus {
@@ -14,29 +16,39 @@ public abstract class UpdateProfileCommand extends Object implements ICommand {
     }
 
     UpdateProfileCommand() {
+        this.successResult = null;
     }
 
     protected boolean isProfileUpdateInvalid(Context context, String oldPassword, String newEmail) {
+        LogStatus logStatus = null;
+        User currUser = context.getUserState().getCurrentUser();
         if (context.getUserState().getCurrentUser() == null) {
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN;
+            logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN;
+//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN;
+            Logger.getInstance().logAction("UpdateProfileCommand", LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN);
         }
-        if (context.getUserState().getCurrentUser().checkPasswordMatch(oldPassword) == false) {
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD;
+        if (currUser.checkPasswordMatch(oldPassword) == false) {
+            logStatus = LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD;
+//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD;
+            Logger.getInstance().logAction("UpdateProfileCommand", LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD);
         }
         for (int i = 0; i < context.getUserState().getAllUsers().size(); i++) {
             if (context.getUserState().getAllUsers().get(i).getEmail() == newEmail) {
-                this.logStatus = LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE;
+                logStatus = LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE;
+//                this.logStatus = LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE;
+                Logger.getInstance().logAction("UpdateProfileCommand", LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE);
             }
         }
-        if (logStatus == LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE || logStatus == LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD
+        if (logStatus == LogStatus.USER_UPDATE_PROFILE_EMAIL_ALREADY_IN_USE
+                || logStatus == LogStatus.USER_UPDATE_PROFILE_WRONG_PASSWORD
                 || logStatus == LogStatus.USER_UPDATE_PROFILE_NOT_LOGGED_IN ){
-            this.successResult = false;
-            return false;
+            this.successResult = true;
+            return true;
         }
         else{
             //what is success result
-            this.successResult = true;
-            return true;
+            this.successResult = false;
+            return false;
         }
     }
     @Override

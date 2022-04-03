@@ -2,6 +2,7 @@ package command;
 
 import controller.Context;
 
+import logging.Logger;
 import model.EntertainmentProvider;
 import model.User;
 
@@ -18,7 +19,7 @@ public class UpdateEntertainmentProviderProfileCommand extends UpdateProfileComm
     private String newPassword;
     private List<String> newOtherRepNames;
     private List<String> newOtherRepEmails;
-    private LogStatus logStatus;
+//    private LogStatus logStatus;
 
     public enum LogStatus {
         USER_UPDATE_PROFILE_SUCCESS,
@@ -44,22 +45,30 @@ public class UpdateEntertainmentProviderProfileCommand extends UpdateProfileComm
 
     @Override
     public void execute(Context context) {
+        LogStatus logStatus = null;
         if (oldPassword == null || newOrgName == null || newOrgAddress == null || newPaymentAccountEmail == null || newMainRepName == null ||
                 newMainRepEmail == null || newPassword == null || newOtherRepNames == null || newOtherRepEmails == null) {
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+            logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+            Logger.getInstance().logAction("UpdateEntertainmentProviderProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL);
         }
         User currUser = context.getUserState().getCurrentUser();
-        if (isProfileUpdateInvalid(context, oldPassword, newMainRepEmail) && currUser instanceof EntertainmentProvider) {
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
-        } else {
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_ENTERTAINMENT_PROVIDER;
+        if (!(currUser instanceof EntertainmentProvider)){
+            logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_ENTERTAINMENT_PROVIDER;
+            Logger.getInstance().logAction("UpdateEntertainmentProviderProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_NOT_ENTERTAINMENT_PROVIDER);
         }
-
+        if (!(isProfileUpdateInvalid(context, oldPassword, newMainRepEmail)) && currUser instanceof EntertainmentProvider) {
+            logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+            Logger.getInstance().logAction("UpdateEntertainmentProviderProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_SUCCESS);
+        }
         for (int i = 0; i < context.getUserState().getAllUsers().size(); i++) {
             User loopUser = context.getUserState().getAllUsers().get(i);
-            if (loopUser instanceof EntertainmentProvider && ((EntertainmentProvider) loopUser).getOrgName().equals(newOrgName) && ((EntertainmentProvider) loopUser)
-                    .getOrgAddress().equals(newOrgAddress)) {
-                this.logStatus = LogStatus.USER_UPDATE_PROFILE_ORG_ALREADY_REGISTERED;
+            if (loopUser instanceof EntertainmentProvider && ((EntertainmentProvider) loopUser).getOrgName().equals(newOrgName)
+                    && ((EntertainmentProvider) loopUser).getOrgAddress().equals(newOrgAddress)) {
+                logStatus = LogStatus.USER_UPDATE_PROFILE_ORG_ALREADY_REGISTERED;
+//                this.logStatus = LogStatus.USER_UPDATE_PROFILE_ORG_ALREADY_REGISTERED;
+                Logger.getInstance().logAction("UpdateEntertainmentProviderProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_ORG_ALREADY_REGISTERED);
             }
         }
         if(logStatus == LogStatus.USER_UPDATE_PROFILE_SUCCESS)

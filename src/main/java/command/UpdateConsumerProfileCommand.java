@@ -1,6 +1,7 @@
 package command;
 
 import controller.Context;
+import logging.Logger;
 import model.Consumer;
 import model.ConsumerPreferences;
 import model.User;
@@ -13,7 +14,7 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
     private String newPassword;
     private String newPaymentAccountEmail;
     private ConsumerPreferences newPreferences;
-    private LogStatus logStatus;
+//    private LogStatus logStatus;
 
     public enum LogStatus {
         USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL,
@@ -30,24 +31,29 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
         this.newPhoneNumber = newPhoneNumber;
         this.newPassword = newPassword;
         this.newPaymentAccountEmail = newPaymentAccountEmail;
-        this.newPreferences =newPreferences;
+        this.newPreferences = newPreferences;
     }
 
     @Override
     public void execute(Context context) {
+        LogStatus logStatus = null;
         if(oldPassword == null || newName == null || newEmail == null || newPhoneNumber == null || newPassword == null ||
                 newPaymentAccountEmail == null || newPreferences == null){
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+            logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
+            Logger.getInstance().logAction("UpdateConsumerProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL);
         }
         //implies is true
         User currUser = context.getUserState().getCurrentUser();
-        if(isProfileUpdateInvalid(context, oldPassword, newEmail) && currUser instanceof Consumer){
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+        if(!(currUser instanceof Consumer)){
+            logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_CONSUMER;
+            Logger.getInstance().logAction("UpdateConsumerProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_NOT_CONSUMER);
         }
-        else{
-            this.logStatus = LogStatus.USER_UPDATE_PROFILE_NOT_CONSUMER;
+        if(!(isProfileUpdateInvalid(context, oldPassword, newEmail)) && currUser instanceof Consumer){
+            logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
+            Logger.getInstance().logAction("UpdateConsumerProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_SUCCESS);
         }
-
 
         if(logStatus == LogStatus.USER_UPDATE_PROFILE_SUCCESS){
             //how to make more efficient?

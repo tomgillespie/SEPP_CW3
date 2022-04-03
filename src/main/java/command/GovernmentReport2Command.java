@@ -1,6 +1,7 @@
 package command;
 
 import controller.Context;
+import logging.Logger;
 import model.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class GovernmentReport2Command extends Object implements ICommand {
     private List<Consumer> consumerListResult;
     private List<Event> eventListResult;
     private List<Booking> bookingListResult;
-    private LogStatus logStatus;
+//    private LogStatus logStatus;
 
     public GovernmentReport2Command(String orgName) {
         this.orgName = orgName;
@@ -26,14 +27,19 @@ public class GovernmentReport2Command extends Object implements ICommand {
 
     @Override
     public void execute(Context context) {
+        LogStatus logStatus = null;
         if (orgName == null) {
-            this.logStatus = LogStatus.INVALID_ORG_NAME;
+//            this.logStatus = LogStatus.INVALID_ORG_NAME;
+            logStatus = LogStatus.INVALID_ORG_NAME;
+            Logger.getInstance().logAction("GovernmentReport2Command", LogStatus.INVALID_ORG_NAME);
         }
         List<Event> allEvents = context.getEventState().getAllEvents();
         // Loop through all active, ticketed events to find those organised by given organiser
         for (int i = 0; i < allEvents.size(); i++) {
             Event currEvent = allEvents.get(i);
-            if ((currEvent.getOrganiser().getOrgName().equals(orgName)) && (currEvent.getStatus() == EventStatus.ACTIVE) && (currEvent instanceof TicketedEvent)) {
+            if ((currEvent.getOrganiser().getOrgName().equals(orgName))
+                    && (currEvent.getStatus() == EventStatus.ACTIVE)
+                    && (currEvent instanceof TicketedEvent)) {
                 this.eventListResult.add(currEvent);
             }
         }

@@ -22,9 +22,7 @@ public class Context {
         this.eventState = new EventState(other.getEventState());
         this.bookingState = new BookingState(other.getBookingState());
         this.sponsorshipState = new SponsorshipState(other.getSponsorshipState());
-        // Check shallow reference cloning here:
-        PaymentSystem reference = other.getPaymentSystem();
-        this.paymentSystem = reference;
+        this.paymentSystem = other.getPaymentSystem();
     }
     public PaymentSystem getPaymentSystem(){
         return paymentSystem;

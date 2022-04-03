@@ -1,6 +1,7 @@
 package command;
 
 import controller.Context;
+import logging.Logger;
 import model.Consumer;
 import model.User;
 
@@ -15,7 +16,7 @@ public class RegisterConsumerCommand extends Object implements ICommand{
     private String password;
     private String paymentAccountEmail;
     private Consumer newConsumerResult;
-    private LogStatus logStatus;
+//    private LogStatus logStatus;
 
     public enum LogStatus {
         REGISTER_CONSUMER_SUCCESS,
@@ -24,41 +25,49 @@ public class RegisterConsumerCommand extends Object implements ICommand{
         USER_LOGIN_SUCCESS
     }
 
-    public RegisterConsumerCommand(String name, String email, String phoneNumber, String password, String paymentAccountEmail){
+    public RegisterConsumerCommand(String name, String email, String phoneNumber, String password,
+                                   String paymentAccountEmail){
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.paymentAccountEmail = paymentAccountEmail;
+        this.newConsumerResult = null;
     }
 
     @Override
     public void execute(Context context) {
+        LogStatus logStatus = null;
         if (name == null || email == null || phoneNumber == null || password == null || paymentAccountEmail == null) {
-            this.logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
+            logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
+//            this.logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
+            Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL);
         }
         Map<String, User> allUsers = context.getUserState().getAllUsers();
         for (Map.Entry<String, User> entry : allUsers.entrySet()){
             User currUser = entry.getValue();
             if (currUser.getEmail().equals(email)){
-                this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
+                logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
+//                this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
+                Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED);
                 break;
             }
         }
         if (logStatus == null){
-            this.logStatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
+            logStatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
+//            this.logStatus =
+            Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.REGISTER_CONSUMER_SUCCESS);
             this.newConsumerResult = new Consumer(name, email, phoneNumber, password, paymentAccountEmail);
             context.getUserState().addUser(newConsumerResult);
             context.getUserState().setCurrentUser(newConsumerResult);
-            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
+            logStatus = LogStatus.USER_LOGIN_SUCCESS;
+//            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
+            Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_LOGIN_SUCCESS);
         }
     }
 
     @Override
     public Object getResult() {
-        if (logStatus == LogStatus.USER_LOGIN_SUCCESS){
             return newConsumerResult;
-        }
-        else return null;
     }
 }

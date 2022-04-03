@@ -1,11 +1,9 @@
 package logging;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Logger {
-    private List<LogEntry> log;
+    private List<LogEntry> log = new ArrayList<>();
     private static Logger logger = null;
     public static Logger getInstance(){
         if(logger == null){

@@ -1,2 +1,8 @@
-"getConsumersWithActiveBookings()
+registerProvider()
 ---
+sameEmail()
+---
+nullInputs()
+---
+sameOrgNameAndOrgAddress()
+---

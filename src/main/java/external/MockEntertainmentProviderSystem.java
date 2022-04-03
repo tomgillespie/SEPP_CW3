@@ -37,7 +37,8 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
     }
 
     @Override
-    public void recordNewPerformance(long eventNumber, long performanceNumber, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public void recordNewPerformance(long eventNumber, long performanceNumber,
+                                     LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.performanceMap.put(performanceNumber,eventNumber);
     }
 
@@ -47,7 +48,8 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
     }
 
     @Override
-    public void recordNewBooking(long eventNumber, long performanceNumber, long bookingNumber, String consumerName, String consumerEmail, int bookedTickets) {
+    public void recordNewBooking(long eventNumber, long performanceNumber, long bookingNumber,
+                                 String consumerName, String consumerEmail, int bookedTickets) {
         this.bookingToTicketsMap.put(bookingNumber, bookedTickets);
         this.bookingToEventMap.put(bookingNumber, eventNumber);
         Integer totalRemainingTicketsAtEvent = eventMap.get(eventNumber);

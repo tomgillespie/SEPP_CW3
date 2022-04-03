@@ -11,7 +11,8 @@ public class Booking {
     private LocalDateTime bookingDateTime;
     private BookingStatus bookingStatus = BookingStatus.Active;
 
-    public Booking(long bookingNumber, Consumer booker, EventPerformance performance, int numTickets, double amountPaid, LocalDateTime bookingDateTime){
+    public Booking(long bookingNumber, Consumer booker, EventPerformance performance,
+                   int numTickets, double amountPaid, LocalDateTime bookingDateTime){
         this.bookingNumber = bookingNumber;
         this.booker = booker;
         this.performance = performance;

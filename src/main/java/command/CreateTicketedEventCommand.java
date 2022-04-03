@@ -1,6 +1,7 @@
 package command;
 
 import controller.Context;
+import logging.Logger;
 import model.EntertainmentProvider;
 import model.Event;
 import model.EventType;
@@ -9,13 +10,19 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
     private int numTickets;
     private double ticketPrice;
     private boolean requestSponsorship;
-    private LogStatus logStatus;
+//    private LogStatus logStatus;
 
     public enum LogStatus{
         CREATE_TICKETED_EVENT_SUCCESS;
     }
 
-    public CreateTicketedEventCommand(String title, EventType type, int numTickets,double ticketPrice, boolean requestSponsorship) {
+    public CreateTicketedEventCommand(
+            String title,
+            EventType type,
+            int numTickets,
+            double ticketPrice,
+            boolean requestSponsorship
+    ) {
         super(title, type);
         this.numTickets = numTickets;
         this.ticketPrice = ticketPrice;
@@ -25,10 +32,22 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
     @Override
     public void execute(Context context) {
         if (isUserAllowedToCreateEvent(context)){
-            Event newEvent = context.getEventState().createTicketedEvent((EntertainmentProvider) context.getUserState().getCurrentUser(), title, type, ticketPrice, numTickets);
+            // Create ticketed event
+            Event newEvent = context.getEventState().createTicketedEvent(
+                    (EntertainmentProvider) context.getUserState().getCurrentUser(),
+                    title,
+                    type,
+                    ticketPrice,
+                    numTickets
+            );
             this.eventNumberResult = newEvent.getEventNumber();
-            this.logStatus = LogStatus.CREATE_TICKETED_EVENT_SUCCESS;
-            ((EntertainmentProvider) context.getUserState().getCurrentUser()).getProviderSystem().recordNewEvent(eventNumberResult, title, numTickets);
+            Logger.getInstance().logAction("CreateTicketedEventCommand.execute", LogStatus.CREATE_TICKETED_EVENT_SUCCESS);
+//            this.logStatus = LogStatus.CREATE_TICKETED_EVENT_SUCCESS;
+            // Record creation of new ticketed event in the external entertainment provider system
+            ((EntertainmentProvider) context.getUserState().getCurrentUser()).getProviderSystem().recordNewEvent(
+                    eventNumberResult,
+                    title,
+                    numTickets);
         }
     }
 }

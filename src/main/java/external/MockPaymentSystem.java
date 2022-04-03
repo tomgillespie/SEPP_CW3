@@ -52,7 +52,9 @@ public class MockPaymentSystem implements PaymentSystem{
     @Override
     public boolean processRefund(String buyerAccountEmail, String sellerAccountEmail, double transactionAmount) {
         for (int i = 0; i < transactionList.size(); i++){
-            if (transactionList.get(i).getBuyerAccountEmail().equals(buyerAccountEmail) && transactionList.get(i).getSellerAccountEmail().equals(sellerAccountEmail) && transactionList.get(i).getTransactionAmount() == transactionAmount ){
+            if (transactionList.get(i).getBuyerAccountEmail().equals(buyerAccountEmail)
+                    && transactionList.get(i).getSellerAccountEmail().equals(sellerAccountEmail)
+                    && transactionList.get(i).getTransactionAmount() == transactionAmount ){
                 transactionList.remove(i);
                 return true;
             }
