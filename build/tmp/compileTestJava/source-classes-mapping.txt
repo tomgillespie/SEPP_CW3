@@ -4,11 +4,15 @@ CreateEventTest.java
  CreateEventTest
 RegisterConsumerTest.java
  RegisterConsumerTest
+TestUserState.java
+ TestUserState
 RequestBookingRecordsTest.java
  RequestBookingRecordsTest
 BookEventTest.java
  BookEventTest
 LogInSystemTest.java
  LogInSystemTest
+TestEventState.java
+ TestEventState
 RegisterEntertainmentProviderTest.java
  RegisterEntertainmentProviderTest

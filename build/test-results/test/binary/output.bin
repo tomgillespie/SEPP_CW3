@@ -1,8 +1,0 @@
-registerProvider()
----
-sameEmail()
----
-nullInputs()
----
-sameOrgNameAndOrgAddress()
----

@@ -16,9 +16,9 @@ command/CreateNonTicketedEventCommand.java
  command.CreateNonTicketedEventCommand$LogStatus
 external/PaymentSystem.java
  external.PaymentSystem
-command/GovernmentReport2Command.java
- command.GovernmentReport2Command
- command.GovernmentReport2Command$LogStatus
+command/UpdateProfileCommand.java
+ command.UpdateProfileCommand
+ command.UpdateProfileCommand$LogStatus
 controller/Controller.java
  controller.Controller
 state/ISponsorshipState.java
@@ -39,9 +39,9 @@ command/CreateEventCommand.java
  command.CreateEventCommand$LogStatus
 model/BookingStatus.java
  model.BookingStatus
-command/UpdateEntertainmentProviderProfileCommand.java
- command.UpdateEntertainmentProviderProfileCommand
- command.UpdateEntertainmentProviderProfileCommand$LogStatus
+command/RegisterEntertainmentProviderCommand.java
+ command.RegisterEntertainmentProviderCommand
+ command.RegisterEntertainmentProviderCommand$LogStatus
 model/User.java
  model.User
 state/BookingState.java
@@ -90,18 +90,18 @@ command/ICommand.java
  command.ICommand
 model/Event.java
  model.Event
-command/UpdateConsumerProfileCommand.java
- command.UpdateConsumerProfileCommand
- command.UpdateConsumerProfileCommand$LogStatus
+state/IUserState.java
+ state.IUserState
 model/EventType.java
  model.EventType
 state/SponsorshipState.java
  state.SponsorshipState
-command/UpdateProfileCommand.java
- command.UpdateProfileCommand
- command.UpdateProfileCommand$LogStatus
-state/IUserState.java
- state.IUserState
-command/RegisterEntertainmentProviderCommand.java
- command.RegisterEntertainmentProviderCommand
- command.RegisterEntertainmentProviderCommand$LogStatus
+command/UpdateEntertainmentProviderProfileCommand.java
+ command.UpdateEntertainmentProviderProfileCommand
+ command.UpdateEntertainmentProviderProfileCommand$LogStatus
+command/UpdateConsumerProfileCommand.java
+ command.UpdateConsumerProfileCommand
+ command.UpdateConsumerProfileCommand$LogStatus
+command/GovernmentReport2Command.java
+ command.GovernmentReport2Command
+ command.GovernmentReport2Command$LogStatus

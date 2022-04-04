@@ -9,26 +9,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 public class RequestBookingRecordsTest {
     @BeforeEach
     void printTestName(TestInfo testInfo) {
         System.out.println(testInfo.getDisplayName());
     }
-
     @AfterEach
     void clearLogs() {
         Logger.getInstance().clearLog();
         System.out.println("---");
     }
-
-    private static void createOlympicsProviderWith2Events(Controller controller) {
+    private static void createOlympicsProviderWith2Events(Controller controller)
+    {
         controller.runCommand(new RegisterEntertainmentProviderCommand(
                 "Olympics Committee",
                 "Mt. Everest",
@@ -39,8 +34,8 @@ public class RequestBookingRecordsTest {
                 List.of("Unknown Actor", "Spy"),
                 List.of("unknown@gmail.com", "spy@gmail.com")
         ));
-
-        CreateTicketedEventCommand eventCmd1 = new CreateTicketedEventCommand(
+        CreateTicketedEventCommand eventCmd1 = new
+                CreateTicketedEventCommand(
                 "London Summer Olympics",
                 EventType.Sports,
                 123456,
@@ -49,7 +44,6 @@ public class RequestBookingRecordsTest {
         );
         controller.runCommand(eventCmd1);
         long eventNumber1 = eventCmd1.getResult();
-
         controller.runCommand(new AddEventPerformanceCommand(
                 eventNumber1,
                 "Wimbledon",
@@ -86,8 +80,8 @@ public class RequestBookingRecordsTest {
                 3000,
                 3000
         ));
-
-        CreateTicketedEventCommand eventCmd2 = new CreateTicketedEventCommand(
+        CreateTicketedEventCommand eventCmd2 = new
+                CreateTicketedEventCommand(
                 "Winter Olympics",
                 EventType.Sports,
                 40000,
@@ -96,7 +90,6 @@ public class RequestBookingRecordsTest {
         );
         controller.runCommand(eventCmd2);
         long eventNumber2 = eventCmd2.getResult();
-
         controller.runCommand(new AddEventPerformanceCommand(
                 eventNumber2,
                 "The Alps",
@@ -121,10 +114,8 @@ public class RequestBookingRecordsTest {
                 4000,
                 10000
         ));
-
         controller.runCommand(new LogoutCommand());
     }
-
     private static void register3Consumers(Controller controller) {
         controller.runCommand(new RegisterConsumerCommand(
                 "John Biggson",
@@ -151,57 +142,110 @@ public class RequestBookingRecordsTest {
         ));
         controller.runCommand(new LogoutCommand());
     }
-
     private static void loginOlympicsProvider(Controller controller) {
-        controller.runCommand(new LoginCommand("anonymous@gmail.com", "anonymous"));
+        controller.runCommand(new LoginCommand("anonymous@gmail.com",
+                "anonymous"));
     }
-
     private static void loginConsumer1(Controller controller) {
-        controller.runCommand(new LoginCommand("jbiggson1@hotmail.co.uk", "jbiggson2"));
+        controller.runCommand(new LoginCommand("jbiggson1@hotmail.co.uk",
+                "jbiggson2"));
     }
-
     private static void loginConsumer2(Controller controller) {
-        controller.runCommand(new LoginCommand("jane@inf.ed.ac.uk", "giantsRverycool"));
+        controller.runCommand(new LoginCommand("jane@inf.ed.ac.uk",
+                "giantsRverycool"));
     }
-
     private static void loginConsumer3(Controller controller) {
-        controller.runCommand(new LoginCommand("i-will-kick-your@gmail.com", "it is wednesday my dudes"));
+        controller.runCommand(new LoginCommand(
+                "i-will-kick-your@gmail.com", "it is wednesday my dudes"));
     }
-
     private static void loginGovernmentRepresentative(Controller controller) {
-        controller.runCommand(new LoginCommand("margaret.thatcher@gov.uk", "The Good times  "));
+        controller.runCommand(new LoginCommand("margaret.thatcher@gov.uk",
+                "The Good times "));
     }
-
     @Test
-    void getConsumersWithActiveBookings(){
+    void getConsumersWithActiveBookingsTest(){
         Controller controller = new Controller();
         createOlympicsProviderWith2Events(controller);
         register3Consumers(controller);
         loginConsumer1(controller);
-
-        BookEventCommand consumer1BooksTheAlps = new BookEventCommand(2, 3, 10);
+        BookEventCommand consumer1BooksTheAlps = new
+                BookEventCommand(2, 3, 10);
         controller.runCommand(consumer1BooksTheAlps);
         controller.runCommand(new LogoutCommand());
-
         loginConsumer2(controller);
-        BookEventCommand consumer2BooksTheAlps = new BookEventCommand(2, 3, 20);
+        BookEventCommand consumer2BooksTheAlps = new
+                BookEventCommand(2, 3, 20);
         controller.runCommand(consumer2BooksTheAlps);
         controller.runCommand(new LogoutCommand());
-
         loginConsumer3(controller);
-        BookEventCommand consumer3BooksWimbledon1 = new BookEventCommand(1,1, 200);
+        BookEventCommand consumer3BooksWimbledon1 = new
+                BookEventCommand(1,1, 200);
         controller.runCommand(consumer3BooksWimbledon1);
         controller.runCommand(new LogoutCommand());
-
         loginGovernmentRepresentative(controller);
-
-        GovernmentReport2Command cmd = new GovernmentReport2Command("Olympics Committee");
+        GovernmentReport2Command cmd = new
+                GovernmentReport2Command("Olympics Committee");
         controller.runCommand(cmd);
         List<Consumer> consumers = cmd.getResult();
-
         assertEquals(3, consumers.size());
-        assertTrue(consumers.stream().anyMatch(consumer -> consumer.getName().equals("John Biggson")));
-        assertTrue(consumers.stream().anyMatch(consumer -> consumer.getName().equals("Jane Giantsdottir")));
-        assertTrue(consumers.stream().anyMatch(consumer -> consumer.getName().equals("Wednesday Kebede")));
+        assertTrue(consumers.stream().anyMatch(consumer ->
+                consumer.getName().equals("John Biggson")));
+        assertTrue(consumers.stream().anyMatch(consumer ->
+                consumer.getName().equals("Jane Giantsdottir")));
+        assertTrue(consumers.stream().anyMatch(consumer ->
+                consumer.getName().equals("Wednesday Kebede")));
+    }
+    @Test
+    public void nullInputTest(){
+        Controller controller = new Controller();
+        createOlympicsProviderWith2Events(controller);
+        register3Consumers(controller);
+        loginGovernmentRepresentative(controller);
+        GovernmentReport2Command cmd = new
+                GovernmentReport2Command(null);
+        controller.runCommand(cmd);
+        List<Consumer> consumers = cmd.getResult();
+//will it return if a null org name is entered?
+        assertNull((GovernmentReport2Command)(consumers));
+    }
+
+    @Test
+    public void invaldOrgNameInputTest(){
+        Controller controller = new Controller();
+        createOlympicsProviderWith2Events(controller);
+        register3Consumers(controller);
+        loginGovernmentRepresentative(controller);
+        GovernmentReport2Command cmd = new
+                GovernmentReport2Command("Mr Bean");
+        controller.runCommand(cmd);
+        List<Consumer> consumers = cmd.getResult();
+//will it return if a null org name is entered?
+        assertNull((GovernmentReport2Command)(consumers));
+    }
+
+    @Test
+    public void userNotGovRepTest(){
+        Controller controller = new Controller();
+        createOlympicsProviderWith2Events(controller);
+        register3Consumers(controller);
+        GovernmentReport2Command cmd = new
+                GovernmentReport2Command("Olympics Committee");
+        controller.runCommand(cmd);
+        List<Consumer> consumers = cmd.getResult();
+//will it return if a null org name is entered?
+        assertNull((GovernmentReport2Command)(consumers));
+    }
+
+    @Test
+    public void noEventsTest(){
+        Controller controller = new Controller();
+        loginGovernmentRepresentative(controller);
+        GovernmentReport2Command cmd = new
+                GovernmentReport2Command("Olympics Committee");
+        controller.runCommand(cmd);
+        List<Consumer> consumers = cmd.getResult();
+//will it return if a null org name is entered?
+//doesnt work because the ==null doesnt trigger might have to be size()==0
+        assertEquals(null,(consumers));
     }
 }
