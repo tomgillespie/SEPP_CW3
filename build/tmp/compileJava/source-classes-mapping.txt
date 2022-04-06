@@ -41,9 +41,9 @@ controller/Controller.java
  controller.Controller
 state/ISponsorshipState.java
  state.ISponsorshipState
-command/BookEventCommand.java
- command.BookEventCommand
- command.BookEventCommand$LogStatus
+command/GovernmentReport2Command.java
+ command.GovernmentReport2Command
+ command.GovernmentReport2Command$LogStatus
 command/GetAvailablePerformanceTicketsCommand.java
  command.GetAvailablePerformanceTicketsCommand
  command.GetAvailablePerformanceTicketsCommand$LogStatus
@@ -102,6 +102,6 @@ command/UpdateProfileCommand.java
 command/RegisterEntertainmentProviderCommand.java
  command.RegisterEntertainmentProviderCommand
  command.RegisterEntertainmentProviderCommand$LogStatus
-command/GovernmentReport2Command.java
- command.GovernmentReport2Command
- command.GovernmentReport2Command$LogStatus
+command/BookEventCommand.java
+ command.BookEventCommand
+ command.BookEventCommand$LogStatus
