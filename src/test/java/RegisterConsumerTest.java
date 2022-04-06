@@ -4,10 +4,8 @@ import controller.Controller;
 import logging.Logger;
 import model.Consumer;
 import model.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 public class RegisterConsumerTest {
     @BeforeEach
@@ -19,8 +17,13 @@ public class RegisterConsumerTest {
         Logger.getInstance().clearLog();
         System.out.println("---");
     }
+
+    // The following tests test the RegisterConsumerCommand for correct inputs, //
+    // null inputs and a scenario when the given email address is already registered. //
+
     @Test
-    void registerConsumer(){
+    @DisplayName("RegisterConsumerTest")
+    void registerConsumerTest(){
         Controller controller = new Controller();
         RegisterConsumerCommand cmd1 = new
                 RegisterConsumerCommand("John Biggson",
@@ -44,8 +47,10 @@ public class RegisterConsumerTest {
                 ((register1)).getPaymentAccountEmail());
         controller.runCommand(new LogoutCommand());
     }
+
     @Test
-    void registerConsumerNullInputs(){
+    @DisplayName("registerConsumerWithNullInputsTest")
+    void registerConsumerNullInputsTest(){
         Controller controller = new Controller();
         RegisterConsumerCommand cmd1 = new
                 RegisterConsumerCommand(null,
@@ -55,7 +60,6 @@ public class RegisterConsumerTest {
                 null);
         controller.runCommand(cmd1);
         User register1 = (User) cmd1.getResult();
-//should i be using the logstatus here or not?
         assertNull((((Consumer)(register1))));
         RegisterConsumerCommand cmd2 = new
                 RegisterConsumerCommand("John Biggson",
@@ -65,11 +69,12 @@ public class RegisterConsumerTest {
                 "jbiggson1@hotmail.co.uk");
         controller.runCommand(cmd2);
         User register2 = (User) cmd2.getResult();
-//should i be using the logstatus here or not?
         assertNull((((Consumer)(register2))));
     }
+
     @Test
-    void emailAlreadyExists(){
+    @DisplayName("emailAlreadyExistsTest")
+    void emailAlreadyExistsTest(){
         Controller controller = new Controller();
         RegisterConsumerCommand cmd1 = new
                 RegisterConsumerCommand("John Biggson",
@@ -86,7 +91,6 @@ public class RegisterConsumerTest {
                 "jbiggson1@hotmail.co.uk");
         controller.runCommand(cmd2);
         User register2 = (User) cmd2.getResult();
-//should i be using the logstatus here or not?
         assertNull((((Consumer)(register2))));
     }
 }

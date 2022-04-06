@@ -8,9 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUserState {
+
+    // Tests on Consumers:
     @Test
-    @DisplayName("Testing set current user sets and gets the user correctly")
-    public void testSetCurrentUser(){
+    @DisplayName("Test setCurrentUser to Consumer")
+    public void testSetCurrentUserToConsumer(){
         UserState userState = new UserState();
         User testUser = new Consumer("euan","email@com","other",
                 "password","email@email.com");
@@ -18,23 +20,30 @@ public class TestUserState {
         assertEquals(testUser ,userState.getCurrentUser());
     }
     @Test
-//wont run as there is nothing to catch the null
-    @DisplayName("Testing return from null inputs")
-    public void testSetCurrentUserNull(){
+    @DisplayName("Test setCurrentUser to Consumer with null inputs")
+    public void testSetCurrentUserToConsumerWithNullInputs(){
         UserState userState = new UserState();
         User testUser = new Consumer(null,null,null, null,null);
         userState.setCurrentUser(testUser);
         assertEquals(testUser, userState.getCurrentUser());
     }
+
     @Test
-    @DisplayName("testing if a user is added")
-    public void testAddUser(){
+    @DisplayName("Test if a Consumer is added")
+    public void testAddConsumer(){
         UserState userState = new UserState();
         User testUser = new Consumer("euan","email@com","other",
                 "password","email");
         userState.addUser(testUser);
         assertTrue(userState.getAllUsers().containsKey("email@com"));
     }
+
+    // Tests on Entertainment Providers:
+
+
+
+
+
     @Test
     @DisplayName("test all users")
     public void testAllUsers(){

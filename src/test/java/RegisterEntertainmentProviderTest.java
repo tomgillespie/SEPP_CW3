@@ -6,10 +6,8 @@ import logging.Logger;
 import model.Consumer;
 import model.EntertainmentProvider;
 import model.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
+
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 public class RegisterEntertainmentProviderTest {
@@ -22,8 +20,15 @@ public class RegisterEntertainmentProviderTest {
         Logger.getInstance().clearLog();
         System.out.println("---");
     }
+
+    // The following tests test several scenarios: //
+    // When inputs are correct, when null inputs are provided, when the email address is already registered //
+    // when the orgName and orgAddress are already registered, //
+    // when the same orgName is provided, but a different orgAddress is given - this should succeed //
+
     @Test
-    void registerProvider(){
+    @DisplayName("RegisterProviderTest")
+    void registerProviderTest(){
         Controller controller = new Controller();
         RegisterEntertainmentProviderCommand cmd1 = new
                 RegisterEntertainmentProviderCommand(
@@ -53,7 +58,7 @@ public class RegisterEntertainmentProviderTest {
         assertEquals(bowling.getPaymentAccountEmail(),
                 ((EntertainmentProvider)(register1)).getPaymentAccountEmail());
         controller.runCommand(new LogoutCommand());
-//how to test main rep stuff
+
     }
     @Test
     void nullInputs(){
@@ -72,6 +77,7 @@ public class RegisterEntertainmentProviderTest {
         User register1 = (User) cmd1.getResult();
         assertNull((((EntertainmentProvider)(register1))));
     }
+
     @Test
     void sameEmail(){
         Controller controller = new Controller();
@@ -100,6 +106,7 @@ public class RegisterEntertainmentProviderTest {
         User register2 = (User) cmd2.getResult();
         assertNull((EntertainmentProvider)(register2));
     }
+
     @Test
     void sameOrgNameAndOrgAddress() {
         Controller controller = new Controller();
@@ -127,5 +134,34 @@ public class RegisterEntertainmentProviderTest {
         controller.runCommand(cmd2);
         User register2 = (User) cmd2.getResult();
         assertNull((EntertainmentProvider)(register2));
+    }
+
+    @Test
+    void sameOrgNameDiffOrgAddress() {
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand cmd1 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome",
+                "bowling@ed.ac.uk",
+                "barry bowling",
+                "barry@ed.ac.uk",
+                "10 pin king",
+                List.of("strike", "spare"),
+                List.of("spare@ed.ac.uk"));
+        controller.runCommand(cmd1);
+        RegisterEntertainmentProviderCommand cmd2 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome2",
+                "bowling2000@ed.ac.uk",
+                "different name ",
+                "differentemail@ed.ac.uk",
+                "10 pin king",
+                List.of("new_strike", "spare"),
+                List.of("spare_strike@ed.ac.uk"));
+        controller.runCommand(cmd2);
+        User register2 = (User) cmd2.getResult();
+        assertEquals("differentemail@ed.ac.uk",register2.getEmail());
     }
 }

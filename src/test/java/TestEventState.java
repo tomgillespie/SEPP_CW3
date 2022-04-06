@@ -36,7 +36,7 @@ public class TestEventState {
     }
     @Test
     @DisplayName("Test the ticketed event booking works")
-    public void testTicketedEventBooking () {
+    public void testCreateTicketedEvent () {
         EntertainmentProvider organiser = new EntertainmentProvider(
                 "TestOrganiser",
                 "home",
@@ -56,8 +56,8 @@ public class TestEventState {
         assertEquals(1, eventState.getNextEventNumber());
     }
     @Test
-    @DisplayName("test get next event number itterates correctly")
-    public void testGetNextEventNumberItterates () {
+    @DisplayName("test get next event number iterates correctly")
+    public void testGetNextEventNumberIterates () {
         EventState eventState = new EventState();
         EntertainmentProvider organiser = new EntertainmentProvider(
                 "TestOrganiser",

@@ -27,6 +27,26 @@ public class CreateEventTest {
         System.out.println("---");
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // In order to create an event, it is necessary to:
     // 1. Register an entertainment provider
     // 2. Login the entertainment provider

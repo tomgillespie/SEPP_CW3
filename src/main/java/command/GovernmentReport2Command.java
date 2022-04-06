@@ -16,8 +16,6 @@ import java.util.Map;
 public class GovernmentReport2Command extends Object implements ICommand {
     private String orgName;
     private List<Consumer> consumerListResult;
-    private List<Event> eventListResult;
-    private List<Booking> bookingListResult;
 
     /**
      * Creates a GovernmentReport2 for the specified organisation
@@ -25,15 +23,14 @@ public class GovernmentReport2Command extends Object implements ICommand {
      */
     public GovernmentReport2Command(String orgName) {
         this.orgName = orgName;
-        this.eventListResult = new ArrayList<>();
-        this.bookingListResult = new ArrayList<>();
         this.consumerListResult = new ArrayList<>();
     }
 
     public enum LogStatus {
-        INVALID_ORG_NAME,
-        MATCHING_ORG_NAME,
-        USER_NOT_GOV_REP
+        GOVERNMENT_REPORT2_NOT_LOGGED_IN,
+        GOVERNMENT_REPORT2_USER_NOT_GOVERNMENT_REPRESENTATIVE,
+        GOVERNMENT_REPORT2_NO_SUCH_ORGANISATION,
+        GOVERNMENT_REPORT2_SUCCESS
     }
 
     /**
@@ -46,14 +43,26 @@ public class GovernmentReport2Command extends Object implements ICommand {
 
     @Override
     public void execute(Context context) {
-        List<Event> allEvents = context.getEventState().getAllEvents();
+        // To return all information about consumers who have bookings to a given entertainment provider's events,
+        // we will take the following steps:
+        // 1. Loop through all events and add events organised by the entertainment provider to "eventListResult"
+        // 2. Loop through "eventListResult", and for each event:
+        // 3. Loop through associated bookings, and add them to "bookingListResult".
+        // 4. Loop through "bookingListResult" and add associated consumers to consumerListResult
+        // 5. Check different conditions explained below and if any are true, withhold the consumerListResult,
+        // and return null instead.
+
+        List<Event> eventListResult = new ArrayList<>();
+        List<Booking> bookingListResult = new ArrayList<>();
+
         // Loop through all active, ticketed events to find those organised by given organiser
+        List<Event> allEvents = context.getEventState().getAllEvents();
         for (int i = 0; i < allEvents.size(); i++) {
             Event currEvent = allEvents.get(i);
             if ((currEvent.getOrganiser().getOrgName().equals(orgName))
                     && (currEvent.getStatus() == EventStatus.ACTIVE)
                     && (currEvent instanceof TicketedEvent)) {
-                this.eventListResult.add(currEvent);
+                eventListResult.add(currEvent);
             }
         }
         // Loop through events to find bookings
@@ -62,7 +71,7 @@ public class GovernmentReport2Command extends Object implements ICommand {
             List<Booking> currBookingList = context.getBookingState().findBookingsByEventNumber(currEvent.getEventNumber());
             // Loop through bookings and add them to bookingListResult
             for (int j = 0; j < currBookingList.size(); j++) {
-                this.bookingListResult.add(currBookingList.get(j));
+                bookingListResult.add(currBookingList.get(j));
             }
         }
         // Loop through list of bookings and get associated consumers
@@ -70,26 +79,77 @@ public class GovernmentReport2Command extends Object implements ICommand {
             this.consumerListResult.add(bookingListResult.get(i).getBooker());
         }
 
+        // Now we will verify that none of the following conditions are true:
+        // 1. That there is no logged in user
+        // 2. That the logged in user is not a government representative
+        // 3. That there is no such organisation registered
+        // If these conditions are all false, logStatus will remain null, so in this case, the request is successful
         LogStatus logStatus = null;
+        User currUser = context.getUserState().getCurrentUser();
+        // Check condition 1:
+        if (currUser == null){
+            logStatus = LogStatus.GOVERNMENT_REPORT2_NOT_LOGGED_IN;
+            Logger.getInstance().logAction(
+                    "GovernmentReport2Command.execute",
+                    LogStatus.GOVERNMENT_REPORT2_NOT_LOGGED_IN
+            );
+        }
+        // Check condition 2:
+        if (!(currUser instanceof GovernmentRepresentative)){
+            logStatus = LogStatus.GOVERNMENT_REPORT2_USER_NOT_GOVERNMENT_REPRESENTATIVE;
+            Logger.getInstance().logAction(
+                    "GovernmentReport2Command.execute",
+                    LogStatus.GOVERNMENT_REPORT2_USER_NOT_GOVERNMENT_REPRESENTATIVE
+            );
+        }
+        // To check condition 3, we will set our flag to be false, then loop through all users, and if a match with
+        // the given orgName is found, we update our flag to true.
         Map<String, User> allUsers = context.getUserState().getAllUsers();
-
+        boolean isMatch = false;
         for (Map.Entry<String, User> entry : allUsers.entrySet()) {
-            // If user is an entertainment provider and their organisation name matches
-            if ((entry.getValue() instanceof EntertainmentProvider && ((EntertainmentProvider)entry.getValue()).getOrgName().equals(orgName))){
-                logStatus = LogStatus.MATCHING_ORG_NAME;
-                Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.MATCHING_ORG_NAME);
+            if (entry.getValue() instanceof EntertainmentProvider
+                    && ((EntertainmentProvider)entry.getValue()).getOrgName().equals(orgName)){
+                isMatch = true;
             }
         }
-        User loggedInUser = context.getUserState().getCurrentUser();
-        if (!(loggedInUser instanceof GovernmentRepresentative)){
-            logStatus = LogStatus.USER_NOT_GOV_REP;
-            Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.USER_NOT_GOV_REP);
+        // If isMatch is still false, then the given orgName did not match any of our registered users.
+        if (!isMatch){
+            logStatus = LogStatus.GOVERNMENT_REPORT2_NO_SUCH_ORGANISATION;
+            Logger.getInstance().logAction(
+                    "GovernmentReport2Command.execute",
+                    LogStatus.GOVERNMENT_REPORT2_USER_NOT_GOVERNMENT_REPRESENTATIVE
+            );
         }
-
-        if (consumerListResult.size() == 0 || logStatus != LogStatus.MATCHING_ORG_NAME){
+        // In these cases, the consumerListResult should not be returned, so null is returned instead.
+        if (logStatus != null || consumerListResult.size() == 0){
             this.consumerListResult = null;
         }
-    }
+        else {
+            logStatus = LogStatus.GOVERNMENT_REPORT2_SUCCESS;
+            Logger.getInstance().logAction(
+                    "GovernmentReport2Command.execute",
+                    LogStatus.GOVERNMENT_REPORT2_SUCCESS
+            );
+        }
+
+//        LogStatus logStatus = null;
+//        Map<String, User> allUsers = context.getUserState().getAllUsers();
+//        for (Map.Entry<String, User> entry : allUsers.entrySet()) {
+//            // If user is an entertainment provider and their organisation name matches
+//            if ((entry.getValue() instanceof EntertainmentProvider && ((EntertainmentProvider)entry.getValue()).getOrgName().equals(orgName))){
+//                logStatus = LogStatus.MATCHING_ORG_NAME;
+//                Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.MATCHING_ORG_NAME);
+//            }
+//        }
+//        User loggedInUser = context.getUserState().getCurrentUser();
+//        if (!(loggedInUser instanceof GovernmentRepresentative)){
+//            logStatus = LogStatus.USER_NOT_GOV_REP;
+//            Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.USER_NOT_GOV_REP);
+//        }
+//
+//        if (consumerListResult.size() == 0 || logStatus != LogStatus.MATCHING_ORG_NAME){
+//            this.consumerListResult = null;
+        }
 
     /**
      *
