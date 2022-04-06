@@ -1,14 +1,8 @@
 import command.*;
 import controller.Controller;
 import logging.Logger;
-import model.EntertainmentProvider;
-import model.EventType;
-import model.NonTicketedEvent;
-import model.TicketedEvent;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import model.*;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -27,30 +21,163 @@ public class CreateEventTest {
         System.out.println("---");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private static void loginGovernmentRepresentative(Controller controller) {
+        controller.runCommand(new LoginCommand("margaret.thatcher@gov.uk", "The Good times  "));
+    }
 
 
     // In order to create an event, it is necessary to:
     // 1. Register an entertainment provider
     // 2. Login the entertainment provider
     // 3. Create event - ticketed/nonticketed
+
+    // The following tests test expected behaviour of the CreateEvent, CreateTicketedEvent and //
+    // the NonTicketedEvent commands - it is expected that Consumers, Government Representatives //
+    // and logged out users should not be able to create events //
+
+    @Test
+    @DisplayName("CreateSingleTicketedEventTest")
+    void createSingleTicketedEventTest(){
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand cmd1 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome",
+                "bowling@ed.ac.uk",
+                "barry bowling",
+                "barry@ed.ac.uk",
+                "10 pin king",
+                List.of("strike", "spare"),
+                List.of("spare@ed.ac.uk"));
+        controller.runCommand(cmd1);
+        User register1 = (User) cmd1.getResult();
+        CreateTicketedEventCommand cmd2 = new CreateTicketedEventCommand(
+                "BOWLS",
+                EventType.Sports,
+                10,
+                100,
+                false
+        );
+        controller.runCommand(cmd2);
+        Long resultingEventNumber = cmd2.getResult();
+
+        assertEquals(1, resultingEventNumber);
+    }
+
+    @Test
+    @DisplayName("CreateSingleNonTicketedEventTest")
+    void createSingleNonTicketedEventTest(){
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand cmd1 = new
+                RegisterEntertainmentProviderCommand(
+                "bowling club",
+                "the bowladrome",
+                "bowling@ed.ac.uk",
+                "barry bowling",
+                "barry@ed.ac.uk",
+                "10 pin king",
+                List.of("strike", "spare"),
+                List.of("spare@ed.ac.uk"));
+        controller.runCommand(cmd1);
+        User register1 = (User) cmd1.getResult();
+        CreateNonTicketedEventCommand cmd2 = new CreateNonTicketedEventCommand(
+                "Free bowling event",
+                EventType.Sports
+        );
+        controller.runCommand(cmd2);
+        Long resultingEventNumber = cmd2.getResult();
+
+        assertEquals(1, resultingEventNumber);
+    }
+
+    @Test
+    @DisplayName("ConsumerCreateTicketedEventTest")
+    void consumerCreateTicketedEventTest(){
+        Controller controller = new Controller();
+        RegisterConsumerCommand regCmd = new RegisterConsumerCommand(
+                "Tom",
+                "tom@ed.ac.uk",
+                "01234",
+                "pass",
+                "cash@gmail.com"
+        );
+        controller.runCommand(regCmd);
+        User register1 = (User) regCmd.getResult();
+        CreateTicketedEventCommand cmd2 = new CreateTicketedEventCommand(
+                "BOWLS",
+                EventType.Sports,
+                10,
+                100,
+                false
+        );
+        controller.runCommand(cmd2);
+        Long resultingEventNumber = cmd2.getResult();
+        assertNull(resultingEventNumber);
+    }
+
+    @Test
+    @DisplayName("ConsumerCreateNonTicketedEventTest")
+    void consumerCreateNonTicketedEventTest(){
+        Controller controller = new Controller();
+        RegisterConsumerCommand registeredConsumer = new RegisterConsumerCommand(
+                "John Biggson",
+                "jbiggson1@hotmail.co.uk",
+                "077893153480",
+                "jbiggson2",
+                "jbiggson1@hotmail.co.uk"
+        );
+        controller.runCommand(registeredConsumer);
+        controller.runCommand(new LogoutCommand());
+        controller.runCommand(new LoginCommand("jbiggson1@hotmail.co.uk", "jbiggson2"));
+        CreateNonTicketedEventCommand eventCmd9 = new CreateNonTicketedEventCommand(
+                "John's dance event",
+                EventType.Dance
+        );
+        controller.runCommand(eventCmd9);
+        Long eventNumberResult = eventCmd9.getResult();
+        assertNull(eventNumberResult);
+    }
+
+    @Test
+    @DisplayName("LoggedOutUserCreateTicketedEventTest")
+    void loggedOutUserCreateTicketedEventTest(){
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand regCmd1 = new RegisterEntertainmentProviderCommand(
+                "University of Edinburgh",
+                "Appleton Tower, Edinburgh",
+                "edibank@ed.ac.uk",
+                "Peter Mathieson",
+                "pmathieson@ed.ac.uk",
+                "hongkong",
+                List.of("chinalover", "protesthater"),
+                List.of("chinalover@ed.ac.uk"));
+        controller.runCommand(regCmd1);
+        EntertainmentProvider entProvider = (EntertainmentProvider) regCmd1.getResult();
+        controller.runCommand(new LogoutCommand());
+        CreateNonTicketedEventCommand eventCmd10 = new CreateNonTicketedEventCommand(
+                "Royal mile busking",
+                EventType.Music
+        );
+        controller.runCommand(eventCmd10);
+        Long eventNumberResult = eventCmd10.getResult();
+        assertNull(eventNumberResult);
+    }
+
+    @Test
+    @DisplayName("GovernmentRepresentativeCreateTicketedEventTest")
+    void govRepCreateTicketedEventTest(){
+        Controller controller = new Controller();
+        loginGovernmentRepresentative(controller);
+        CreateNonTicketedEventCommand eventCmd10 = new CreateNonTicketedEventCommand(
+                "Royal mile busking",
+                EventType.Music
+        );
+        controller.runCommand(eventCmd10);
+        Long eventNumberResult = eventCmd10.getResult();
+        assertNull(eventNumberResult);
+    }
+
+    // The following methods aid to set up more complex testing scenarios //
 
     private EntertainmentProvider entProvider1;
     private long eventNumber1;
@@ -208,6 +335,10 @@ public class CreateEventTest {
     }
 
 
+
+    // The following tests test more complex scenarios, such as creating several events //
+
+
     @Test
     void test4TicketedEvents(){
         Controller controller = new Controller();
@@ -292,20 +423,5 @@ public class CreateEventTest {
         assertEquals(eventNumber6, nonTicketedEvent2.getEventNumber());
         assertEquals(eventNumber7, nonTicketedEvent3.getEventNumber());
         assertEquals(eventNumber8, nonTicketedEvent4.getEventNumber());
-    }
-
-    @Test
-    void testConsumerEventCreation(){
-        Controller controller = new Controller();
-        consumerTriesEventCreation(controller);
-        // Consumer should not be able to create event, so null is returned
-        assertNull(eventNumber9);
-    }
-
-    @Test
-    void testLoggedOutUserEventCreation(){
-        Controller controller = new Controller();
-        loggedOutUserTriesEventCreation(controller);
-        assertNull(eventNumber10);
     }
 }
