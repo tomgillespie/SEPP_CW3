@@ -159,8 +159,7 @@ public class RequestBookingRecordsTest {
                 "i-will-kick-your@gmail.com", "it is wednesday my dudes"));
     }
     private static void loginGovernmentRepresentative(Controller controller) {
-        controller.runCommand(new LoginCommand("margaret.thatcher@gov.uk",
-                "The Good times "));
+        controller.runCommand(new LoginCommand("margaret.thatcher@gov.uk", "The Good times  "));
     }
     @Test
     void getConsumersWithActiveBookingsTest(){

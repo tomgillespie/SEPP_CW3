@@ -1,7 +1,28 @@
-model/Booking.java
- model.Booking
+logging/Logger.java
+ logging.Logger
 logging/LogEntry.java
  logging.LogEntry
+model/SponsorshipStatus.java
+ model.SponsorshipStatus
+model/ConsumerPreferences.java
+ model.ConsumerPreferences
+external/MockPaymentSystem.java
+ external.MockPaymentSystem
+ external.MockPaymentSystem$Transaction
+model/EventType.java
+ model.EventType
+external/EntertainmentProviderSystem.java
+ external.EntertainmentProviderSystem
+external/PaymentSystem.java
+ external.PaymentSystem
+model/BookingStatus.java
+ model.BookingStatus
+model/EventStatus.java
+ model.EventStatus
+external/MockEntertainmentProviderSystem.java
+ external.MockEntertainmentProviderSystem
+model/Booking.java
+ model.Booking
 state/IEventState.java
  state.IEventState
 model/SponsorshipRequest.java
@@ -14,11 +35,8 @@ model/NonTicketedEvent.java
 command/CreateNonTicketedEventCommand.java
  command.CreateNonTicketedEventCommand
  command.CreateNonTicketedEventCommand$LogStatus
-external/PaymentSystem.java
- external.PaymentSystem
-command/UpdateProfileCommand.java
- command.UpdateProfileCommand
- command.UpdateProfileCommand$LogStatus
+state/IUserState.java
+ state.IUserState
 controller/Controller.java
  controller.Controller
 state/ISponsorshipState.java
@@ -31,17 +49,12 @@ command/GetAvailablePerformanceTicketsCommand.java
  command.GetAvailablePerformanceTicketsCommand$LogStatus
 model/TicketedEvent.java
  model.TicketedEvent
-external/MockPaymentSystem.java
- external.MockPaymentSystem
- external.MockPaymentSystem$Transaction
 command/CreateEventCommand.java
  command.CreateEventCommand
  command.CreateEventCommand$LogStatus
-model/BookingStatus.java
- model.BookingStatus
-command/RegisterEntertainmentProviderCommand.java
- command.RegisterEntertainmentProviderCommand
- command.RegisterEntertainmentProviderCommand$LogStatus
+command/UpdateEntertainmentProviderProfileCommand.java
+ command.UpdateEntertainmentProviderProfileCommand
+ command.UpdateEntertainmentProviderProfileCommand$LogStatus
 model/User.java
  model.User
 state/BookingState.java
@@ -50,18 +63,12 @@ model/Consumer.java
  model.Consumer
 state/UserState.java
  state.UserState
-model/ConsumerPreferences.java
- model.ConsumerPreferences
 model/EventPerformance.java
  model.EventPerformance
 controller/Context.java
  controller.Context
-external/MockEntertainmentProviderSystem.java
- external.MockEntertainmentProviderSystem
 model/EntertainmentProvider.java
  model.EntertainmentProvider
-model/EventStatus.java
- model.EventStatus
 state/IBookingState.java
  state.IBookingState
 state/EventState.java
@@ -75,33 +82,26 @@ command/LoginCommand.java
 command/RegisterConsumerCommand.java
  command.RegisterConsumerCommand
  command.RegisterConsumerCommand$LogStatus
-external/EntertainmentProviderSystem.java
- external.EntertainmentProviderSystem
 command/LogoutCommand.java
  command.LogoutCommand
  command.LogoutCommand$LogStatus
-model/SponsorshipStatus.java
- model.SponsorshipStatus
-logging/Logger.java
- logging.Logger
 model/GovernmentRepresentative.java
  model.GovernmentRepresentative
 command/ICommand.java
  command.ICommand
 model/Event.java
  model.Event
-state/IUserState.java
- state.IUserState
-model/EventType.java
- model.EventType
-state/SponsorshipState.java
- state.SponsorshipState
-command/UpdateEntertainmentProviderProfileCommand.java
- command.UpdateEntertainmentProviderProfileCommand
- command.UpdateEntertainmentProviderProfileCommand$LogStatus
 command/UpdateConsumerProfileCommand.java
  command.UpdateConsumerProfileCommand
  command.UpdateConsumerProfileCommand$LogStatus
+state/SponsorshipState.java
+ state.SponsorshipState
+command/UpdateProfileCommand.java
+ command.UpdateProfileCommand
+ command.UpdateProfileCommand$LogStatus
+command/RegisterEntertainmentProviderCommand.java
+ command.RegisterEntertainmentProviderCommand
+ command.RegisterEntertainmentProviderCommand$LogStatus
 command/GovernmentReport2Command.java
  command.GovernmentReport2Command
  command.GovernmentReport2Command$LogStatus

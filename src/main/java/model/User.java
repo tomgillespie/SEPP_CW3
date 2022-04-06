@@ -9,8 +9,14 @@ public abstract class User {
     private String paymentAccountEmail;
 
     protected User(String email, String password, String paymentAccountEmail){
+        //assert(password != null);
         this.email = email;
-        this.passwordHash = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        if (password == null){
+            this.passwordHash = null;
+        }
+        else {
+            this.passwordHash = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        }
         this.paymentAccountEmail = paymentAccountEmail;
     }
 

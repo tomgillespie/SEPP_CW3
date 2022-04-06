@@ -18,7 +18,6 @@ public class GovernmentReport2Command extends Object implements ICommand {
     private List<Consumer> consumerListResult;
     private List<Event> eventListResult;
     private List<Booking> bookingListResult;
-//    private LogStatus logStatus;
 
     /**
      * Creates a GovernmentReport2 for the specified organisation
@@ -33,6 +32,7 @@ public class GovernmentReport2Command extends Object implements ICommand {
 
     public enum LogStatus {
         INVALID_ORG_NAME,
+        MATCHING_ORG_NAME,
         USER_NOT_GOV_REP
     }
 
@@ -46,7 +46,6 @@ public class GovernmentReport2Command extends Object implements ICommand {
 
     @Override
     public void execute(Context context) {
-        LogStatus logStatus = null;
         List<Event> allEvents = context.getEventState().getAllEvents();
         // Loop through all active, ticketed events to find those organised by given organiser
         for (int i = 0; i < allEvents.size(); i++) {
@@ -71,19 +70,23 @@ public class GovernmentReport2Command extends Object implements ICommand {
             this.consumerListResult.add(bookingListResult.get(i).getBooker());
         }
 
+        LogStatus logStatus = null;
         Map<String, User> allUsers = context.getUserState().getAllUsers();
+
         for (Map.Entry<String, User> entry : allUsers.entrySet()) {
-            if ((entry.getValue() instanceof EntertainmentProvider && !((EntertainmentProvider)entry.getValue()).getOrgName().equals(orgName))){
-                logStatus = LogStatus.INVALID_ORG_NAME;
-                Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.INVALID_ORG_NAME);
+            // If user is an entertainment provider and their organisation name matches
+            if ((entry.getValue() instanceof EntertainmentProvider && ((EntertainmentProvider)entry.getValue()).getOrgName().equals(orgName))){
+                logStatus = LogStatus.MATCHING_ORG_NAME;
+                Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.MATCHING_ORG_NAME);
             }
         }
         User loggedInUser = context.getUserState().getCurrentUser();
-        if (loggedInUser instanceof GovernmentRepresentative){
-            logStatus = logStatus.USER_NOT_GOV_REP;
+        if (!(loggedInUser instanceof GovernmentRepresentative)){
+            logStatus = LogStatus.USER_NOT_GOV_REP;
             Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.USER_NOT_GOV_REP);
         }
-        if (consumerListResult.size() == 0 || logStatus == LogStatus.INVALID_ORG_NAME || logStatus == LogStatus.USER_NOT_GOV_REP){
+
+        if (consumerListResult.size() == 0 || logStatus != LogStatus.MATCHING_ORG_NAME){
             this.consumerListResult = null;
         }
     }

@@ -3,6 +3,7 @@ import command.LogoutCommand;
 import command.RegisterConsumerCommand;
 import command.RegisterEntertainmentProviderCommand;
 import controller.Controller;
+import logging.LogEntry;
 import logging.Logger;
 import model.Consumer;
 import model.EntertainmentProvider;
@@ -81,6 +82,46 @@ public class LogInSystemTest {
         registerEntertainmentProvider(controller);
         loginEdinburgh(controller);
     }
+
+    private static void loginGovernmentRepresentative(Controller controller){
+        controller.runCommand(new LoginCommand("margaret.thatcher@gov.uk", "The Good times  "));
+    }
+
+    @Test
+    void logInGovernmentRepresentativeTest(){
+        Controller controller = new Controller();
+        LoginCommand cmd = new LoginCommand("margaret.thatcher@gov.uk", "The Good times  ");
+        controller.runCommand(cmd);
+        User loggerIn = (User) cmd.getResult();
+        assertEquals("margaret.thatcher@gov.uk", loggerIn.getEmail());
+    }
+
+    @Test
+    void logInTest(){
+        Controller controller = new Controller();
+        registerEntertainmentProvider(controller);
+        controller.runCommand(new LogoutCommand());
+        LoginCommand cmd = new LoginCommand("pmathieson@ed.ac.uk", "hongkong");
+        controller.runCommand(cmd);
+        User loggerIn = (User) cmd.getResult();
+        EntertainmentProvider edinburghUni = new
+                EntertainmentProvider("University of Edinburgh",
+                "Appleton Tower, Edinburgh",
+                "edibank@ed.ac.uk",
+                "Peter Mathieson",
+                "pmathieson@ed.ac.uk",
+                "hongkong",
+                List.of("chinalover", "protesthater"),
+                List.of("chinalover@ed.ac.uk"));
+        assertEquals(edinburghUni.getPaymentAccountEmail(),
+                loggerIn.getPaymentAccountEmail());
+        // Test printing out logStatuses
+        for (LogEntry entry : Logger.getInstance().getLog()){
+            System.out.println(entry.getResult());
+        }
+    }
+
+
     @Test
     void registerAndLogInEdinburghUniversityAsEntertainmentProvider() {
         Controller controller = new Controller();

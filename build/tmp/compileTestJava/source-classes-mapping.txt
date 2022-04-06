@@ -1,18 +1,20 @@
-GovernmentReport2SystemTest.java
- GovernmentReport2SystemTest
+RegisterEntertainmentProviderTest.java
+ RegisterEntertainmentProviderTest
 CreateEventTest.java
  CreateEventTest
 RegisterConsumerTest.java
  RegisterConsumerTest
 TestUserState.java
  TestUserState
-RequestBookingRecordsTest.java
- RequestBookingRecordsTest
-BookEventTest.java
- BookEventTest
-LogInSystemTest.java
- LogInSystemTest
 TestEventState.java
  TestEventState
-RegisterEntertainmentProviderTest.java
- RegisterEntertainmentProviderTest
+TestBookingState.java
+ TestBookingState
+BookEventTest.java
+ BookEventTest
+GovernmentReport2SystemTest.java
+ GovernmentReport2SystemTest
+LogInSystemTest.java
+ LogInSystemTest
+RequestBookingRecordsTest.java
+ RequestBookingRecordsTest
