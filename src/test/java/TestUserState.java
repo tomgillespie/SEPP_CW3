@@ -59,12 +59,44 @@ public class TestUserState {
     }
 
     // getAllUser tests:
+
     @Test
     @DisplayName("getAllInitialUsersTest")
     void getAllInitialUsersTest(){
         UserState userState = new UserState();
         Map<String,User> allUsers = userState.getAllUsers();
         assertEquals(3, allUsers.size());
+        assertTrue(allUsers.containsKey("gov1@gov.uk"));
+        assertTrue(allUsers.containsKey("gov2@gov.uk"));
+        assertTrue(allUsers.containsKey("margaret.thatcher@gov.uk"));
+    }
+    @Test
+    @DisplayName("AddUsersThenGetAllUsersTest")
+    void addUsersThenGetAllUsersTest(){
+        UserState userState = new UserState();
+        Map<String,User> allUsers = userState.getAllUsers();
+        User addedUser1 = new GovernmentRepresentative(
+                "bojo@gov.uk","carrie",
+                "rishi@gov.uk"
+        );
+        userState.addUser(addedUser1);
+        User addedUser2 = new EntertainmentProvider(
+                "Edinburgh University Surf Club",
+                "40 George Square",
+                "edisurf@ed.ac.uk",
+                "Cameron",
+                "cam@surfsoc.ac.uk",
+                "surf",
+                List.of("Jacob"),
+                List.of("surf@com")
+        );
+        userState.addUser(addedUser2);
+        assertEquals(5, allUsers.size());
+        assertTrue(allUsers.containsKey("gov1@gov.uk"));
+        assertTrue(allUsers.containsKey("gov2@gov.uk"));
+        assertTrue(allUsers.containsKey("margaret.thatcher@gov.uk"));
+        assertTrue(allUsers.containsKey("bojo@gov.uk"));
+        assertTrue(allUsers.containsKey("cam@surfsoc.ac.uk"));
     }
 
 
