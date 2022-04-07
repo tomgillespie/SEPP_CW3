@@ -99,59 +99,71 @@ public class TestUserState {
         assertTrue(allUsers.containsKey("cam@surfsoc.ac.uk"));
     }
 
-
-
-
-
-    // Tests on Consumers:
-    @Test
-    @DisplayName("Test setCurrentUser to Consumer")
-    public void testSetCurrentUserToConsumer(){
-        UserState userState = new UserState();
-        User testUser = new Consumer("euan","email@com","other",
-                "password","email@email.com");
-        userState.setCurrentUser(testUser);
-        assertEquals(testUser ,userState.getCurrentUser());
-    }
-    @Test
-    @DisplayName("Test setCurrentUser to Consumer with null inputs")
-    public void testSetCurrentUserToConsumerWithNullInputs(){
-        UserState userState = new UserState();
-        User testUser = new Consumer(null,null,null, null,null);
-        userState.setCurrentUser(testUser);
-        assertEquals(testUser, userState.getCurrentUser());
-    }
+    // setCurrentUser and getCurrentUser tests:
 
     @Test
-    @DisplayName("Test if a Consumer is added")
-    public void testAddConsumer(){
+    @DisplayName("initalGetCurrentUserTest")
+    void initialGetCurrentUserTest(){
         UserState userState = new UserState();
-        User testUser = new Consumer("euan","email@com","other",
-                "password","email");
-        userState.addUser(testUser);
-        assertTrue(userState.getAllUsers().containsKey("email@com"));
-    }
-
-    // Tests on Entertainment Providers:
-
-
-
-
-
-    @Test
-    @DisplayName("test all users")
-    public void testAllUsers(){
-        UserState userState = new UserState();
-//it should be the 3 gov officials
-        assertEquals(3, userState.getAllUsers().size());
-        assertTrue(userState.getAllUsers().containsKey("gov1@gov.uk"));
-        assertTrue(userState.getAllUsers().containsKey("gov2@gov.uk"));
-        assertTrue(userState.getAllUsers().containsKey("margaret.thatcher@gov.uk"));
-    }
-    @Test
-    @DisplayName("test get current user is null if not set")
-    public void testGetCurrentUserISNull(){
-        UserState userState = new UserState();
+        User currUser = userState.getCurrentUser();
+        assertNull(currUser);
         assertEquals(null, userState.getCurrentUser());
+    }
+
+    @Test
+    @DisplayName("setThenGetCurrentUserGovRepTest")
+    void setThenGetCurrentUserGovRepTest(){
+        UserState userState = new UserState();
+        User addedUser1 = new GovernmentRepresentative(
+                "bojo@gov.uk","carrie",
+                "rishi@gov.uk"
+        );
+        userState.addUser(addedUser1);
+        userState.setCurrentUser(addedUser1);
+        User currUser = userState.getCurrentUser();
+        assertEquals(addedUser1, currUser);
+        assertEquals("bojo@gov.uk", currUser.getEmail());
+        assertEquals("rishi@gov.uk", currUser.getPaymentAccountEmail());
+    }
+
+    @Test
+    @DisplayName("setThenGetCurrentUserEntProvTest")
+    void setThenGetCurrentUserEntProvTest(){
+        UserState userState = new UserState();
+        User addedUser1 = new EntertainmentProvider(
+                "Edinburgh University Surf Club",
+                "40 George Square",
+                "edisurf@ed.ac.uk",
+                "Cameron",
+                "cam@surfsoc.ac.uk",
+                "surf",
+                List.of("Jacob"),
+                List.of("surf@com")
+        );
+        userState.addUser(addedUser1);
+        userState.setCurrentUser(addedUser1);
+        User currUser = userState.getCurrentUser();
+        assertEquals(addedUser1, currUser);
+        assertEquals("cam@surfsoc.ac.uk", currUser.getEmail());
+        assertEquals("edisurf@ed.ac.uk", currUser.getPaymentAccountEmail());
+    }
+
+    @Test
+    @DisplayName("setThenGetCurrentUserConsumerTest")
+    void setThenGetCurrentUserConsumerTest(){
+        UserState userState = new UserState();
+        Consumer addedUser1 = new Consumer(
+                "TomG",
+                "tom@gmail.com",
+                "098765",
+                "pass",
+                "tg@btinternet"
+        );
+        userState.addUser(addedUser1);
+        userState.setCurrentUser(addedUser1);
+        User currUser = userState.getCurrentUser();
+        assertEquals(addedUser1, currUser);
+        assertEquals("tom@gmail.com", currUser.getEmail());
+        assertEquals("tg@btinternet", currUser.getPaymentAccountEmail());
     }
 }
