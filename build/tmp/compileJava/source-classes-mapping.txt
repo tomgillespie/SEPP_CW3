@@ -50,9 +50,9 @@ controller/Controller.java
  controller.Controller
 state/ISponsorshipState.java
  state.ISponsorshipState
-command/AddEventPerformanceCommand.java
- command.AddEventPerformanceCommand
- command.AddEventPerformanceCommand$LogStatus
+command/CreateTicketedEventCommand.java
+ command.CreateTicketedEventCommand
+ command.CreateTicketedEventCommand$LogStatus
 command/GetAvailablePerformanceTicketsCommand.java
  command.GetAvailablePerformanceTicketsCommand
  command.GetAvailablePerformanceTicketsCommand$LogStatus
@@ -102,6 +102,6 @@ command/CreateEventCommand.java
 command/CreateNonTicketedEventCommand.java
  command.CreateNonTicketedEventCommand
  command.CreateNonTicketedEventCommand$LogStatus
-command/CreateTicketedEventCommand.java
- command.CreateTicketedEventCommand
- command.CreateTicketedEventCommand$LogStatus
+command/AddEventPerformanceCommand.java
+ command.AddEventPerformanceCommand
+ command.AddEventPerformanceCommand$LogStatus

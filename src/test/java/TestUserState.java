@@ -1,13 +1,75 @@
 
 import model.Consumer;
+import model.EntertainmentProvider;
+import model.GovernmentRepresentative;
 import model.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import state.UserState;
+
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUserState {
+
+    // addUser tests:
+
+    @Test
+    @DisplayName("addConsumerTest")
+    public void addConsumerTest(){
+        UserState userState = new UserState();
+        User testUser = new Consumer("euan","email@com","other",
+                "password","email");
+        userState.addUser(testUser);
+        assertTrue(userState.getAllUsers().containsKey("email@com"));
+        assertNull(userState.getCurrentUser());
+    }
+    @Test
+    @DisplayName("addEntertainmentProviderTest")
+    public void addEntertainmentProviderTest(){
+        UserState userState = new UserState();
+        User testUser = new EntertainmentProvider(
+                "Edinburgh University Surf Club",
+                "40 George Square",
+                "edisurf@ed.ac.uk",
+                "Cameron",
+                "cam@surfsoc.ac.uk",
+                "surf",
+                List.of("Jacob"),
+                List.of("surf@com")
+        );
+        userState.addUser(testUser);
+        assertTrue(userState.getAllUsers().containsKey("cam@surfsoc.ac.uk"));
+        assertNull(userState.getCurrentUser());
+    }
+    @Test
+    @DisplayName("addGovernmentRepresentativeTest")
+    void addGovernmentRepresentativeTest(){
+        UserState userState = new UserState();
+        User testUser = new GovernmentRepresentative(
+                "bojo@gov.uk","carrie",
+                "rishi@gov.uk"
+        );
+        userState.addUser(testUser);
+        assertTrue(userState.getAllUsers().containsKey("bojo@gov.uk"));
+        assertNull(userState.getCurrentUser());
+    }
+
+    // getAllUser tests:
+    @Test
+    @DisplayName("getAllInitialUsersTest")
+    void getAllInitialUsersTest(){
+        UserState userState = new UserState();
+        Map<String,User> allUsers = userState.getAllUsers();
+        assertEquals(3, allUsers.size());
+    }
+
+
+
+
 
     // Tests on Consumers:
     @Test
