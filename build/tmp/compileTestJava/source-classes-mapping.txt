@@ -1,7 +1,7 @@
 TestEventState.java
  TestEventState
-CreateEventSystemTest.java
- CreateEventSystemTest
+TestUserState.java
+ TestUserState
 RegisterConsumerSystemTest.java
  RegisterConsumerSystemTest
 RegisterEntertainmentProviderSystemTest.java
@@ -12,7 +12,9 @@ GovernmentReport2SystemTest.java
  GovernmentReport2SystemTest
 RequestBookingRecordsSystemTest.java
  RequestBookingRecordsSystemTest
+CreateEventSystemTest.java
+ CreateEventSystemTest
 BookEventSystemTest.java
  BookEventSystemTest
-TestUserState.java
- TestUserState
+TestBookingState.java
+ TestBookingState

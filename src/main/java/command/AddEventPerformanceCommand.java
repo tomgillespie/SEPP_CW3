@@ -129,7 +129,6 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
 
         if (logStatus == null) {
             logStatus = LogStatus.ADD_PERFORMANCE_SUCCESS;
-//          this.logStatus = LogStatus.ADD_PERFORMANCE_SUCCESS;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_SUCCESS);
             // Create event performance
             this.eventPerformanceResult = context.getEventState().createEventPerformance(
