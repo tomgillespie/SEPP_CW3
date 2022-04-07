@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-public class RegisterEntertainmentProviderTest {
+public class RegisterEntertainmentProviderSystemTest {
     @BeforeEach
     void printTestName(TestInfo testInfo) {
         System.out.println(testInfo.getDisplayName());

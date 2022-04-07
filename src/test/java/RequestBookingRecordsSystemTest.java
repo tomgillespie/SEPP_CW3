@@ -12,7 +12,7 @@ import org.junit.jupiter.api.TestInfo;
 import java.time.LocalDateTime;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-public class RequestBookingRecordsTest {
+public class RequestBookingRecordsSystemTest {
     @BeforeEach
     void printTestName(TestInfo testInfo) {
         System.out.println(testInfo.getDisplayName());

@@ -7,7 +7,7 @@ import model.User;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class RegisterConsumerTest {
+public class RegisterConsumerSystemTest {
     @BeforeEach
     void printTestName(TestInfo testInfo) {
         System.out.println(testInfo.getDisplayName());

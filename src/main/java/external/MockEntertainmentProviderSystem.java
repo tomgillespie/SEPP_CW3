@@ -43,9 +43,7 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
     }
 
     @Override
-    public int getNumTicketsLeft(long eventNumber, long performanceNumber) {
-        return eventMap.get(eventNumber);
-    }
+    public int getNumTicketsLeft(long eventNumber, long performanceNumber) { return eventMap.get(eventNumber); }
 
     @Override
     public void recordNewBooking(long eventNumber, long performanceNumber, long bookingNumber,
