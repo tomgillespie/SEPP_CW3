@@ -1,14 +1,2 @@
-nonConsumerBookEventTest
+CreateEventWithNullInputsTest
 ---
-EventNotTicketedTest
----
-PerformanceEndedAlreadyTest
----
-NotEnoughTicketsTest
----
-PerfectBookEventTest
----
- InvalidNumTicketsRequestedTest
----
-EventNotFoundTest
----

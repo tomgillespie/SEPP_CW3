@@ -19,65 +19,67 @@ model/BookingStatus.java
  model.BookingStatus
 model/EventStatus.java
  model.EventStatus
-command/UpdateProfileCommand.java
- command.UpdateProfileCommand
- command.UpdateProfileCommand$LogStatus
+model/User.java
+ model.User
+model/GovernmentRepresentative.java
+ model.GovernmentRepresentative
+state/UserState.java
+ state.UserState
+external/MockEntertainmentProviderSystem.java
+ external.MockEntertainmentProviderSystem
+state/IUserState.java
+ state.IUserState
 model/Booking.java
  model.Booking
 state/IEventState.java
  state.IEventState
 model/SponsorshipRequest.java
  model.SponsorshipRequest
-command/AddEventPerformanceCommand.java
- command.AddEventPerformanceCommand
- command.AddEventPerformanceCommand$LogStatus
+command/RegisterEntertainmentProviderCommand.java
+ command.RegisterEntertainmentProviderCommand
+ command.RegisterEntertainmentProviderCommand$LogStatus
 model/NonTicketedEvent.java
  model.NonTicketedEvent
-command/CreateNonTicketedEventCommand.java
- command.CreateNonTicketedEventCommand
- command.CreateNonTicketedEventCommand$LogStatus
-state/IUserState.java
- state.IUserState
+command/UpdateProfileCommand.java
+ command.UpdateProfileCommand
+ command.UpdateProfileCommand$LogStatus
+command/GovernmentReport2Command.java
+ command.GovernmentReport2Command
+ command.GovernmentReport2Command$LogStatus
 controller/Controller.java
  controller.Controller
 state/ISponsorshipState.java
  state.ISponsorshipState
-command/GovernmentReport2Command.java
- command.GovernmentReport2Command
- command.GovernmentReport2Command$LogStatus
+command/AddEventPerformanceCommand.java
+ command.AddEventPerformanceCommand
+ command.AddEventPerformanceCommand$LogStatus
 command/GetAvailablePerformanceTicketsCommand.java
  command.GetAvailablePerformanceTicketsCommand
  command.GetAvailablePerformanceTicketsCommand$LogStatus
 model/TicketedEvent.java
  model.TicketedEvent
-command/CreateEventCommand.java
- command.CreateEventCommand
- command.CreateEventCommand$LogStatus
+command/BookEventCommand.java
+ command.BookEventCommand
+ command.BookEventCommand$LogStatus
 command/UpdateEntertainmentProviderProfileCommand.java
  command.UpdateEntertainmentProviderProfileCommand
  command.UpdateEntertainmentProviderProfileCommand$LogStatus
-model/User.java
- model.User
 state/BookingState.java
  state.BookingState
 model/Consumer.java
  model.Consumer
-state/UserState.java
- state.UserState
 model/EventPerformance.java
  model.EventPerformance
 controller/Context.java
  controller.Context
-command/RegisterEntertainmentProviderCommand.java
- command.RegisterEntertainmentProviderCommand
- command.RegisterEntertainmentProviderCommand$LogStatus
+model/EntertainmentProvider.java
+ model.EntertainmentProvider
 state/IBookingState.java
  state.IBookingState
 state/EventState.java
  state.EventState
-command/CreateTicketedEventCommand.java
- command.CreateTicketedEventCommand
- command.CreateTicketedEventCommand$LogStatus
+state/SponsorshipState.java
+ state.SponsorshipState
 command/LoginCommand.java
  command.LoginCommand
  command.LoginCommand$LogStatus
@@ -87,8 +89,6 @@ command/RegisterConsumerCommand.java
 command/LogoutCommand.java
  command.LogoutCommand
  command.LogoutCommand$LogStatus
-model/GovernmentRepresentative.java
- model.GovernmentRepresentative
 command/ICommand.java
  command.ICommand
 model/Event.java
@@ -96,12 +96,12 @@ model/Event.java
 command/UpdateConsumerProfileCommand.java
  command.UpdateConsumerProfileCommand
  command.UpdateConsumerProfileCommand$LogStatus
-state/SponsorshipState.java
- state.SponsorshipState
-external/MockEntertainmentProviderSystem.java
- external.MockEntertainmentProviderSystem
-model/EntertainmentProvider.java
- model.EntertainmentProvider
-command/BookEventCommand.java
- command.BookEventCommand
- command.BookEventCommand$LogStatus
+command/CreateEventCommand.java
+ command.CreateEventCommand
+ command.CreateEventCommand$LogStatus
+command/CreateNonTicketedEventCommand.java
+ command.CreateNonTicketedEventCommand
+ command.CreateNonTicketedEventCommand$LogStatus
+command/CreateTicketedEventCommand.java
+ command.CreateTicketedEventCommand
+ command.CreateTicketedEventCommand$LogStatus

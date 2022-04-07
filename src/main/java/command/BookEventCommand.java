@@ -22,6 +22,9 @@ public class BookEventCommand implements ICommand{
         this.uniqueBookingNumber = null;
     }
 
+    // We have deviated from the given UML class diagram, and included another state in the enum for when a user is
+    // logged out - "BOOK_EVENT_USER_NOT_LOGGED_IN".
+
     public enum LogStatus {
         BOOK_EVENT_SUCCESS,
         BOOK_EVENT_USER_NOT_CONSUMER,
@@ -38,6 +41,17 @@ public class BookEventCommand implements ICommand{
     @Override
     public void execute(Context context) {
 
+        // NOTE FOR MARKERS:
+        // We are aware that it is desirable to use inline assertions in our methods, to deal with invalid inputs and
+        // invalid scenarios. We made use of several such assertions in this command, such as:
+        // -> assert givenEvent != null
+        // -> assert givenEvent instanceof TicketedEvent
+        // -> currUser instanceof Consumer
+        // and several more. On piazza, it says to comment out these assertions - however, we decided to build in
+        // some more logic to deal with invalid scenarios, such as when an givenEvent is null because a non-existent
+        // eventNumber has been given, or a someone tries to book a NonTicketedEvent. Other invalid states are
+        // caught automatically by the logic of our method.
+
         LogStatus logStatus = null;
         User currUser = context.getUserState().getCurrentUser();
         List<Event> allEvents = context.getEventState().getAllEvents();
@@ -47,7 +61,11 @@ public class BookEventCommand implements ICommand{
         double amountPaid = 0;
         String sellerAccountEmail = null;
         EventPerformance currEventPerformance = null;
-        String buyerAccountEmail = currUser.getPaymentAccountEmail();
+        String buyerAccountEmail = null;
+
+        if (currUser != null){
+            buyerAccountEmail = currUser.getPaymentAccountEmail();
+        }
 
         // Catch invalid states - invalid eventNumber, NonTicketed event
         if (givenEvent != null && givenEvent instanceof TicketedEvent){

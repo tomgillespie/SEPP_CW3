@@ -40,6 +40,9 @@ public class EventPerformance {
     public LocalDateTime getEndDateTime(){
         return endDateTime;
     }
+    public String getVenueAddress(){
+        return venueAddress;
+    }
     public boolean hasSocialDistancing(){
         return hasSocialDistancing;
     }

@@ -29,13 +29,14 @@ public class BookEventSystemTest {
 
 
     // The following tests test several the following scenarios: //
-    // 1. "Perfect" booking procedure, as decribed above. //
-    // 2. Entertainment Provider should not be able to book an event //
-    // 3. Not able to book if there are not enough tickets left //
-    // 4. If event does not exist, booking should fail //
-    // 5. Consumer should not be able to book NonTicketedEvent //
-    // 6. If less than 1 ticketed is requested, booking should fail //
-    // 6. If the performance has already ended, unbookable //
+    // 1. "Perfect" booking procedure, as decribed above
+    // 2. Entertainment Provider should not be able to book an event
+    // 3. Not able to book if there are not enough tickets left
+    // 4. If event does not exist, booking should fail
+    // 5. Consumer should not be able to book NonTicketedEvent
+    // 6. If less than 1 ticketed is requested, booking should fail
+    // 7. If the performance has already ended, unbookable
+    // 8. Logged out user unable to book a test
 
 
     @Test
@@ -442,10 +443,65 @@ public class BookEventSystemTest {
         assertEquals("jbiggson1@hotmail.co.uk",consumer.getEmail());
     }
 
+    @Test
+    @DisplayName("loggedOutConsumerBookTest")
+    void loggedOutConsumerBookTest(){
+        Controller controller = new Controller();
+        RegisterEntertainmentProviderCommand regCmd1 = new RegisterEntertainmentProviderCommand(
+                "University of Edinburgh",
+                "Appleton Tower, Edinburgh",
+                "edibank@ed.ac.uk",
+                "Peter Mathieson",
+                "pmathieson@ed.ac.uk",
+                "hongkong",
+                List.of("chinalover", "protesthater"),
+                List.of("chinalover@ed.ac.uk"));
+        controller.runCommand(regCmd1);
 
+        CreateTicketedEventCommand eventCmd1 = new CreateTicketedEventCommand(
+                "Fire breathing",
+                EventType.Theatre,
+                50,
+                15,
+                false
+        );
+        controller.runCommand(eventCmd1);
 
+        AddEventPerformanceCommand performanceCmd1 = new AddEventPerformanceCommand(
+                1,
+                "The meadows",
+                LocalDateTime.of(2030, 3, 20, 4, 20),
+                LocalDateTime.of(2030, 3, 20, 6, 45),
+                List.of("Fire breathers"),
+                true,
+                true,
+                true,
+                50,
+                25
+        );
+        controller.runCommand(performanceCmd1);
 
+        RegisterConsumerCommand registeredConsumer = new RegisterConsumerCommand(
+                "John Biggson",
+                "jbiggson1@hotmail.co.uk",
+                "077893153480",
+                "jbiggson2",
+                "jbiggson1@hotmail.co.uk"
+        );
+        controller.runCommand(registeredConsumer);
+        User consumer = (User) registeredConsumer.getResult();
 
+        controller.runCommand(new LogoutCommand());
 
+        BookEventCommand bookCmd1  = new BookEventCommand(
+                1,
+                1,
+                10
+        );
+        controller.runCommand(bookCmd1);
+        Long bookResult1 = (Long) bookCmd1.getResult();
 
+        assertNull(bookResult1);
+        assertEquals("jbiggson1@hotmail.co.uk",consumer.getEmail());
+    }
 }

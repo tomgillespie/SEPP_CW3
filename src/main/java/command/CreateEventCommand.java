@@ -15,7 +15,8 @@ public abstract class CreateEventCommand extends Object implements ICommand{
 
     public enum LogStatus {
         CREATE_EVENT_USER_NOT_ENTERTAINMENT_PROVIDER,
-        CREATE_EVENT_USER_NOT_LOGGED_IN
+        CREATE_EVENT_USER_NOT_LOGGED_IN,
+        CREATE_EVENT_NULL_INPUT
     }
 
     public CreateEventCommand(String title, EventType type){
@@ -38,6 +39,13 @@ public abstract class CreateEventCommand extends Object implements ICommand{
         else {
             return true;
         }
+    }
+
+    protected boolean areInputsValid(Context context){
+        if (title == null || type == null){
+            return false;
+        }
+        else return true;
     }
 
     @Override

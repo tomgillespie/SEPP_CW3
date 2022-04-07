@@ -19,7 +19,7 @@ public class CreateNonTicketedEventCommand extends CreateEventCommand {
 
     @Override
     public void execute(Context context) {
-        if (isUserAllowedToCreateEvent(context)) {
+        if (isUserAllowedToCreateEvent(context) && areInputsValid(context)) {
             // Create non ticketed event
             Event newEvent = context.getEventState().createNonTicketedEvent(
                     (EntertainmentProvider) context.getUserState().getCurrentUser(),

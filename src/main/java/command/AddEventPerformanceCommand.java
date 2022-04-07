@@ -24,7 +24,6 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
     private int capacityLimit;
     private int venueSize;
     private EventPerformance eventPerformanceResult;
-//    private LogStatus logStatus = null;
 
     public enum LogStatus{
         ADD_PERFORMANCE_SUCCESS,
@@ -71,7 +70,7 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
         Event particularEvent = context.getEventState().findEventByNumber(eventNumber);
         User eventOrganiser = context.getEventState().findEventByNumber(eventNumber).getOrganiser();
         if (startDateTime.isAfter(endDateTime)) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_START_AFTER_END;
+
             logStatus = LogStatus.ADD_PERFORMANCE_START_AFTER_END;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_START_AFTER_END);
         }

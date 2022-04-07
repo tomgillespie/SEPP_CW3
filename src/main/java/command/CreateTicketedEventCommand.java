@@ -30,8 +30,17 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
     }
 
     @Override
+    protected boolean areInputsValid(Context context){
+        if (title == null || type == null || numTickets < 1 || ticketPrice  < 0 ){ // Haven't included requestSponsorship
+            // as we are not implementing this use case
+            return false;
+        }
+        else return true;
+    }
+
+    @Override
     public void execute(Context context) {
-        if (isUserAllowedToCreateEvent(context)){
+        if (isUserAllowedToCreateEvent(context) && areInputsValid(context)){
             // Create ticketed event
             Event newEvent = context.getEventState().createTicketedEvent(
                     (EntertainmentProvider) context.getUserState().getCurrentUser(),

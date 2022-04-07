@@ -25,8 +25,21 @@ public class LogInSystemTest {
         System.out.println("---");
     }
 
-    // The following methods are used to set up the test environment - to test a login, sometimes it is //
-    // useful to register a user first. //
+    // To login to our system:
+    // If you are a Government Representative, you need to be preregistered in UserState
+    // If you are a Consumer or Entertainment Provider, you must register before logging in
+
+    // The following tests test several the following scenarios: //
+    // 1. Logging in a Government Representative, as described in the ideal scenario above
+    // 2. Logging in a Consumer, as described in the ideal scenario above
+    // 3. Logging in an Entertainment Provider, as described in the ideal scenario above
+    // 4. Detailed login test - checking all fields are as expected
+    // 5. Logout performs as expected - the current user should be set to null
+    // 6. Logging in with null inputs should not be successful
+    // 7. User should not be able to log in with registered email but incorrect password
+    // 8. User should not be able to log in with unregistered email
+    // 9. Register multiple Consumers and log them in
+    // 10. Login multiple Government Representatives
 
     private static void registerEntertainmentProvider(Controller controller) {
         controller.runCommand(new RegisterEntertainmentProviderCommand(
