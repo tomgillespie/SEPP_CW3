@@ -28,6 +28,16 @@ public class BookEventSystemTest {
     // Book event command called
 
 
+    // The following tests test several the following scenarios: //
+    // 1. "Perfect" booking procedure, as decribed above. //
+    // 2. Entertainment Provider should not be able to book an event //
+    // 3. Not able to book if there are not enough tickets left //
+    // 4. If event does not exist, booking should fail //
+    // 5. Consumer should not be able to book NonTicketedEvent //
+    // 6. If less than 1 ticketed is requested, booking should fail //
+    // 6. If the performance has already ended, unbookable //
+
+
     @Test
     @DisplayName("PerfectBookEventTest")
     void perfectBookEventTest(){
@@ -200,8 +210,6 @@ public class BookEventSystemTest {
         assertEquals("John Biggson", ((Consumer)user).getName());
     }
 
-
-    // The following test fails on an assertion error.
     @Test
     @DisplayName("EventNotFoundTest")
     void eventNotFoundTest(){
@@ -263,8 +271,6 @@ public class BookEventSystemTest {
         assertEquals("John Biggson", ((Consumer)user).getName());
     }
 
-
-    // Again, fails on an assertion error
     @Test
     @DisplayName("EventNotTicketedTest")
     void eventNotTicketedTest(){
@@ -435,6 +441,8 @@ public class BookEventSystemTest {
         assertNull(bookResult1);
         assertEquals("jbiggson1@hotmail.co.uk",consumer.getEmail());
     }
+
+
 
 
 
