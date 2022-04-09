@@ -64,52 +64,42 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
 
     @Override
     public void execute(Context context) {
+        //execute will check all requirments are met and add the event performance to the event
         LogStatus logStatus = null;
         User currUser = context.getUserState().getCurrentUser();
         List<Event> allEvents = context.getEventState().getAllEvents();
         Event particularEvent = context.getEventState().findEventByNumber(eventNumber);
         User eventOrganiser = context.getEventState().findEventByNumber(eventNumber).getOrganiser();
+
         if (startDateTime.isAfter(endDateTime)) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_START_AFTER_END;
             logStatus = LogStatus.ADD_PERFORMANCE_START_AFTER_END;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_START_AFTER_END);
         }
         if (capacityLimit < 1) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_CAPACITY_LESS_THAN_1;
             logStatus = LogStatus.ADD_PERFORMANCE_CAPACITY_LESS_THAN_1;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_CAPACITY_LESS_THAN_1);
         }
         if (venueSize < 1) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_VENUE_SIZE_LESS_THAN_1;
             logStatus = LogStatus.ADD_PERFORMANCE_VENUE_SIZE_LESS_THAN_1;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_VENUE_SIZE_LESS_THAN_1);
         }
         if (currUser == null) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_LOGGED_IN;
             logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_LOGGED_IN;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_USER_NOT_LOGGED_IN);
         }
         if (!(currUser instanceof EntertainmentProvider)) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_ENTERTAINMENT_PROVIDER;
             logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_ENTERTAINMENT_PROVIDER;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_USER_NOT_ENTERTAINMENT_PROVIDER);
         }
         if (!(allEvents.contains(particularEvent))) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_EVENT_NOT_FOUND;
             logStatus = LogStatus.ADD_PERFORMANCE_EVENT_NOT_FOUND;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_EVENT_NOT_FOUND);
         }
         if (!(currUser.equals(eventOrganiser)) && currUser != null) {
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_EVENT_ORGANISER;
             logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_EVENT_ORGANISER;
             Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_USER_NOT_EVENT_ORGANISER);
         }
 
-
-//        if (!(currUser.equals(eventOrganiser)) && logStatus!= LogStatus.ADD_PERFORMANCE_USER_NOT_LOGGED_IN){
-//            this.logStatus = LogStatus.ADD_PERFORMANCE_USER_NOT_EVENT_ORGANISER;
-//            Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_USER_NOT_EVENT_ORGANISER);
-//        }
         // Check for title clash by looping through events, then through performances of each event
         for (int i = 0; i < allEvents.size(); i++) {
             if (allEvents.get(i).getTitle().equals(particularEvent.getTitle())) {
@@ -119,7 +109,6 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
                     if (currPerformance.getStartDateTime().equals(startDateTime)
                             && currPerformance.getEndDateTime().equals(endDateTime)) {
                         logStatus = LogStatus.ADD_PERFORMANCE_EVENTS_WITH_SAME_TITLE_CLASH;
-//                        this.logStatus = LogStatus.ADD_PERFORMANCE_EVENTS_WITH_SAME_TITLE_CLASH;
                         Logger.getInstance().logAction("AddEventPerformanceCommand.execute", LogStatus.ADD_PERFORMANCE_EVENTS_WITH_SAME_TITLE_CLASH);
                         break;
                     }

@@ -14,7 +14,6 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
     private String newPassword;
     private String newPaymentAccountEmail;
     private ConsumerPreferences newPreferences;
-//    private LogStatus logStatus;
 
     public enum LogStatus {
         USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL,
@@ -40,7 +39,6 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
         if(oldPassword == null || newName == null || newEmail == null || newPhoneNumber == null || newPassword == null ||
                 newPaymentAccountEmail == null || newPreferences == null){
             logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
-//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL;
             Logger.getInstance().logAction("UpdateConsumerProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL);
         }
         //implies is true
@@ -51,7 +49,6 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand{
         }
         if(!(isProfileUpdateInvalid(context, oldPassword, newEmail)) && currUser instanceof Consumer){
             logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
-//            this.logStatus = LogStatus.USER_UPDATE_PROFILE_SUCCESS;
             Logger.getInstance().logAction("UpdateConsumerProfileCommand.execute", LogStatus.USER_UPDATE_PROFILE_SUCCESS);
         }
 

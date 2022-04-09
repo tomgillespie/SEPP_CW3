@@ -31,30 +31,39 @@ public class EventPerformance {
     public long getPerformanceNumber(){
         return performanceNumber;
     }
+
     public Event getEvent(){
         return event;
     }
+
     public LocalDateTime getStartDateTime(){
         return startDateTime;
     }
+
     public LocalDateTime getEndDateTime(){
         return endDateTime;
     }
+
     public String getVenueAddress(){
         return venueAddress;
     }
+
     public boolean hasSocialDistancing(){
         return hasSocialDistancing;
     }
+
     public boolean hasAirFiltration(){
         return hasAirFiltration;
     }
+
     public boolean isOutdoors(){
         return isOutdoors;
     }
+
     public int getCapacityLimit(){
         return capacityLimit;
     }
+
     public int getVenueSize(){
         return venueSize;
     }

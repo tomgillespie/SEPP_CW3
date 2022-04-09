@@ -19,7 +19,7 @@ public class GovernmentReport2Command extends Object implements ICommand {
 
     /**
      * Creates a GovernmentReport2 for the specified organisation
-      * @param orgName - identifier of the {@link model.EntertainmentProvider} to provide record for
+     * @param orgName - identifier of the {@link model.EntertainmentProvider} to provide record for
      */
     public GovernmentReport2Command(String orgName) {
         this.orgName = orgName;
@@ -38,7 +38,7 @@ public class GovernmentReport2Command extends Object implements ICommand {
      * \n The orgName refers to a registered entertainment provider
      * \n The {@link model.User} must be a {@link model.GovernmentRepresentative}, and logged in
      *
-      * @param context - object that provides access to global application state
+     * @param context - object that provides access to global application state
      */
 
     @Override
@@ -149,11 +149,11 @@ public class GovernmentReport2Command extends Object implements ICommand {
 //
 //        if (consumerListResult.size() == 0 || logStatus != LogStatus.MATCHING_ORG_NAME){
 //            this.consumerListResult = null;
-        }
+    }
 
     /**
      *
-      * @return A list of {@link model.Consumer}s that have active {@link model.Booking}s at the
+     * @return A list of {@link model.Consumer}s that have active {@link model.Booking}s at the
      *  {@link model.EntertainmentProvider}s {@link model.Event}s if successful, and null otherwise
      */
 

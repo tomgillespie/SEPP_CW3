@@ -34,35 +34,24 @@ public class EntertainmentProvider extends User {
         this.events = new ArrayList<>();
         this.entertainmentProviderSystem = new MockEntertainmentProviderSystem(orgName, orgAddress);
     }
-    public void addEvent(Event event){
-        events.add(event);
-    }
-    public String getOrgName(){
-        return orgName;
-    }
-    public void setOrgName(String orgName){
-        this.orgName = orgName;
-    }
-    public String getOrgAddress(){
-        return orgAddress;
-    }
-    public void setOrgAddress(String orgAddress){
-        this.orgAddress = orgAddress;
-    }
-    public List<Event> getEvents(){
-        return events;
-    }
-    public void setMainRepName(String mainRepName){
-        this.mainRepEmail = mainRepName;
-    }
-    public void setOtherRepNames(List<String> otherRepNames){
-        this.otherRepNames = otherRepNames;
-    }
-    public void setOtherRepEmails(List<String> otherRepEmails){
-        this.otherRepEmails = otherRepEmails;
-    }
-    public EntertainmentProviderSystem getProviderSystem(){
-        return entertainmentProviderSystem;
-    }
+    public void addEvent(Event event){events.add(event);}
+
+    public String getOrgName(){return orgName;}
+
+    public void setOrgName(String orgName){this.orgName = orgName;}
+
+    public String getOrgAddress(){return orgAddress;}
+
+    public void setOrgAddress(String orgAddress){this.orgAddress = orgAddress;}
+
+    public List<Event> getEvents(){return events;}
+
+    public void setMainRepName(String mainRepName){this.mainRepEmail = mainRepName;}
+
+    public void setOtherRepNames(List<String> otherRepNames){this.otherRepNames = otherRepNames;}
+
+    public void setOtherRepEmails(List<String> otherRepEmails){this.otherRepEmails = otherRepEmails;}
+
+    public EntertainmentProviderSystem getProviderSystem(){return entertainmentProviderSystem;}
 
 }

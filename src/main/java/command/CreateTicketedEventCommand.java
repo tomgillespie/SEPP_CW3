@@ -10,7 +10,6 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
     private int numTickets;
     private double ticketPrice;
     private boolean requestSponsorship;
-//    private LogStatus logStatus;
 
     public enum LogStatus{
         CREATE_TICKETED_EVENT_SUCCESS;
@@ -22,7 +21,8 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
             int numTickets,
             double ticketPrice,
             boolean requestSponsorship
-    ) {
+    )
+    {
         super(title, type);
         this.numTickets = numTickets;
         this.ticketPrice = ticketPrice;
@@ -47,11 +47,9 @@ public class CreateTicketedEventCommand extends CreateEventCommand{
                     title,
                     type,
                     ticketPrice,
-                    numTickets
-            );
+                    numTickets);
             this.eventNumberResult = newEvent.getEventNumber();
             Logger.getInstance().logAction("CreateTicketedEventCommand.execute", LogStatus.CREATE_TICKETED_EVENT_SUCCESS);
-//            this.logStatus = LogStatus.CREATE_TICKETED_EVENT_SUCCESS;
             // Record creation of new ticketed event in the external entertainment provider system
             ((EntertainmentProvider) context.getUserState().getCurrentUser()).getProviderSystem().recordNewEvent(
                     eventNumberResult,

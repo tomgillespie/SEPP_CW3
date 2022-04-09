@@ -31,17 +31,14 @@ public class LoginCommand extends Object implements ICommand{
         Map<String, User> allUsers = context.getUserState().getAllUsers();
         if (!(allUsers.containsKey(email))){
             logStatus = LogStatus.USER_LOGIN_EMAIL_NOT_REGISTERED;
-//            this.logStatus = LogStatus.USER_LOGIN_EMAIL_NOT_REGISTERED;
             Logger.getInstance().logAction("LoginCommand.execute", LogStatus.USER_LOGIN_EMAIL_NOT_REGISTERED);
         }
         if (allUsers.containsKey(email) && !(allUsers.get(email).checkPasswordMatch(password))){
             logStatus = LogStatus.USER_LOGIN_WRONG_PASSWORD;
-//            this.logStatus = LogStatus.USER_LOGIN_WRONG_PASSWORD;
             Logger.getInstance().logAction("LoginCommand.execute", LogStatus.USER_LOGIN_WRONG_PASSWORD);
         }
         if (allUsers.containsKey(email) && allUsers.get(email).checkPasswordMatch(password)){
             logStatus = LogStatus.USER_LOGIN_SUCCESS;
-//            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
             Logger.getInstance().logAction("LoginCommand.execute", LogStatus.USER_LOGIN_SUCCESS);
             this.userResult = allUsers.get(email);
             context.getUserState().setCurrentUser(userResult);

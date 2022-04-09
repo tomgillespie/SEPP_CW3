@@ -16,7 +16,6 @@ public class RegisterConsumerCommand extends Object implements ICommand{
     private String password;
     private String paymentAccountEmail;
     private Consumer newConsumerResult;
-//    private LogStatus logStatus;
 
     public enum LogStatus {
         REGISTER_CONSUMER_SUCCESS,
@@ -40,7 +39,6 @@ public class RegisterConsumerCommand extends Object implements ICommand{
         LogStatus logStatus = null;
         if (name == null || email == null || phoneNumber == null || password == null || paymentAccountEmail == null) {
             logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
-//            this.logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
             Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL);
         }
         Map<String, User> allUsers = context.getUserState().getAllUsers();
@@ -48,20 +46,17 @@ public class RegisterConsumerCommand extends Object implements ICommand{
             User currUser = entry.getValue();
             if (currUser.getEmail().equals(email)){
                 logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
-//                this.logStatus = LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED;
                 Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_REGISTER_EMAIL_ALREADY_REGISTERED);
                 break;
             }
         }
         if (logStatus == null){
             logStatus = LogStatus.REGISTER_CONSUMER_SUCCESS;
-//            this.logStatus =
             Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.REGISTER_CONSUMER_SUCCESS);
             this.newConsumerResult = new Consumer(name, email, phoneNumber, password, paymentAccountEmail);
             context.getUserState().addUser(newConsumerResult);
             context.getUserState().setCurrentUser(newConsumerResult);
-            logStatus = LogStatus.USER_LOGIN_SUCCESS;
-//            this.logStatus = LogStatus.USER_LOGIN_SUCCESS;
+            logStatus = LogStatus.USER_LOGIN_SUCCESS;;
             Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_LOGIN_SUCCESS);
         }
     }

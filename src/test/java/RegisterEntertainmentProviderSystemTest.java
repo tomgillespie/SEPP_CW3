@@ -21,10 +21,12 @@ public class RegisterEntertainmentProviderSystemTest {
         System.out.println("---");
     }
 
-    // The following tests test several scenarios: //
-    // When inputs are correct, when null inputs are provided, when the email address is already registered //
-    // when the orgName and orgAddress are already registered, //
-    // when the same orgName is provided, but a different orgAddress is given - this should succeed //
+    // The following tests test several scenarios:
+    //1. Register entertainment provider with valid data
+    //2. Register entertainment provider with null inputs
+    //3. Register with an email that already in use
+    //4. Register with the same org name and address as another entertainment provider
+    //5. Register with the same org name but a different org address
 
     @Test
     @DisplayName("RegisterProviderTest")

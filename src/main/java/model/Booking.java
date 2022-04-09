@@ -23,27 +23,35 @@ public class Booking {
     public long getBookingNumber(){
         return bookingNumber;
     }
+
     public BookingStatus getStatus(){
         return bookingStatus;
     }
+
     public Consumer getBooker(){
         return booker;
     }
+
     public EventPerformance getEventPerformance(){
         return performance;
     }
+
     public int getNumTickets(){
         return numTickets;
     }
+
     public double getAmountPaid(){
         return amountPaid;
     }
+
     public void cancelByConsumer(){
         bookingStatus = BookingStatus.CancelledByConsumer;
     }
+
     public void cancelPaymentFailed(){
         bookingStatus = BookingStatus.PaymentFailed;
     }
+
     public void cancelByProvider(){
         bookingStatus = BookingStatus.CancelledByProvider;
     }

@@ -49,7 +49,7 @@ public class BookEventCommand implements ICommand{
         // -> currUser instanceof Consumer
         // and several more. On piazza, it says to comment out these assertions - however, we decided to build in
         // some more logic to deal with invalid scenarios, such as when an givenEvent is null because a non-existent
-        // eventNumber has been given, or a someone tries to book a NonTicketedEvent. Other invalid states are
+        // eventNumber has been given, or if someone tries to book a NonTicketedEvent. Other invalid states are
         // caught automatically by the logic of our method.
 
         LogStatus logStatus = null;
@@ -145,9 +145,6 @@ public class BookEventCommand implements ICommand{
             ((Consumer) (currUser)).addBooking(latestBooking);
         }
     }
-
-
-
 
     @Override
     public Object getResult() {

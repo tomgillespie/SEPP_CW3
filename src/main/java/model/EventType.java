@@ -1,5 +1,9 @@
 package model;
 
 public enum EventType {
-    Dance, Movie, Music, Sports, Theatre
+    Dance,
+    Movie,
+    Music,
+    Sports,
+    Theatre
 }

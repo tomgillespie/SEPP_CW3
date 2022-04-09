@@ -7,7 +7,6 @@ import model.Event;
 import model.EventType;
 
 public class CreateNonTicketedEventCommand extends CreateEventCommand {
-//    private LogStatus logStatus;
 
     public CreateNonTicketedEventCommand(String title, EventType type) {
         super(title, type);
@@ -27,7 +26,6 @@ public class CreateNonTicketedEventCommand extends CreateEventCommand {
                     type
             );
             this.eventNumberResult = newEvent.getEventNumber();
-//            this.logStatus = LogStatus.CREATE_NON_TICKETED_EVENT_SUCCESS;
             Logger.getInstance().logAction("CreateNonTicketedEvent.execute", LogStatus.CREATE_NON_TICKETED_EVENT_SUCCESS);
             // Record creation of new non ticketed event in the external entertainment provider system
             ((EntertainmentProvider) context.getUserState().getCurrentUser()).getProviderSystem().recordNewEvent(

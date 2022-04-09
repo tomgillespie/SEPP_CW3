@@ -5,13 +5,10 @@ import logging.Logger;
 import model.EntertainmentProvider;
 import model.EventType;
 
-import java.util.Collection;
-
 public abstract class CreateEventCommand extends Object implements ICommand{
     protected Long eventNumberResult;
     protected final String title;
     protected final EventType type;
-//    protected LogStatus logStatus;
 
     public enum LogStatus {
         CREATE_EVENT_USER_NOT_ENTERTAINMENT_PROVIDER,
