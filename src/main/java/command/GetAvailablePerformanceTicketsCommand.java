@@ -12,7 +12,6 @@ public class GetAvailablePerformanceTicketsCommand extends Object implements ICo
 
     private long eventNumber;
     private long performanceNumber;
-//    private LogStatus logStatus = null;
     private Integer availableTicketsResult;
 
     public enum LogStatus {
@@ -33,25 +32,22 @@ public class GetAvailablePerformanceTicketsCommand extends Object implements ICo
         LogStatus logStatus = null;
         List<Event> allEvents = context.getEventState().getAllEvents();
         Event particularEvent = context.getEventState().findEventByNumber(eventNumber);
+
         if (!(allEvents.contains(eventNumber))){
             logStatus = LogStatus.EVENT_DOES_NOT_EXIST;
-//            this.logStatus = LogStatus.EVENT_DOES_NOT_EXIST;
             Logger.getInstance().logAction("GetAvailablePerformanceTicketsCommand.execute", LogStatus.EVENT_DOES_NOT_EXIST);
         }
         if (!(particularEvent instanceof TicketedEvent)){
             logStatus = LogStatus.EVENT_NOT_TICKETED;
-//            this.logStatus = LogStatus.EVENT_NOT_TICKETED;
             Logger.getInstance().logAction("GetAvailablePerformanceTicketsCommand.execute", LogStatus.EVENT_NOT_TICKETED);
         }
         if (!(particularEvent.getPerformances().containsKey(performanceNumber))
                 && logStatus != LogStatus.EVENT_NOT_TICKETED
                 && logStatus != LogStatus.EVENT_DOES_NOT_EXIST){
             logStatus = LogStatus.EVENT_PERFORMANCE_DOES_NOT_EXIST;
-//            this.logStatus = LogStatus.EVENT_PERFORMANCE_DOES_NOT_EXIST;
             Logger.getInstance().logAction("GetAvailablePerformanceTicketsCommand.execute", LogStatus.EVENT_PERFORMANCE_DOES_NOT_EXIST);
         }
         if (logStatus == null){
-//            this.logStatus = LogStatus.GET_TICKETS_SUCCESS;
             logStatus = LogStatus.GET_TICKETS_SUCCESS;
             Logger.getInstance().logAction("GetAvailablePerformanceTicketsCommand.execute", LogStatus.GET_TICKETS_SUCCESS);
             Integer totalPotentialTickets = particularEvent.getPerformanceByNumber(performanceNumber).getCapacityLimit();

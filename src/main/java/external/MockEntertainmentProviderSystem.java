@@ -50,11 +50,13 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
                                  String consumerName, String consumerEmail, int bookedTickets) {
         this.bookingToTicketsMap.put(bookingNumber, bookedTickets);
         this.bookingToEventMap.put(bookingNumber, eventNumber);
+
         Integer totalRemainingTicketsAtEvent = eventMap.get(eventNumber);
         totalRemainingTicketsAtEvent = totalRemainingTicketsAtEvent - bookedTickets;
         eventMap.put(eventNumber, totalRemainingTicketsAtEvent);
     }
 
+    //Not implemented inline with our requirements
     @Override
     public void cancelBooking(long bookingNumber) {
 

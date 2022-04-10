@@ -15,7 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUserState {
 
-    // addUser tests:
+    //List of implemented tests:
+    //1. test add consumer with correct inputs
+    //2. test add entertainment provider with correct inputs
+    //3 + 4 test add government representative with correct inputs (should have pre created accounts in our system)
+    //5 test adding a number of users and getting all users
+    //6. test get current user initialises as expected
+    //7. test set then get current user to government representative
+    //8. test set then get current user to Entertainment provider
+    //9. test set then get current user to consumer
 
     @Test
     @DisplayName("addConsumerTest")
