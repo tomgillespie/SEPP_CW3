@@ -9,8 +9,11 @@ public abstract class User {
     private String paymentAccountEmail;
 
     protected User(String email, String password, String paymentAccountEmail){
-        //assert(password != null);
+        // assert(password != null);
+        // assert(email != null);
+        // assert(paymentAccountEmail != null);
         this.email = email;
+        // Case to catch a null password - cannot be hashed
         if (password == null){
             this.passwordHash = null;
         }

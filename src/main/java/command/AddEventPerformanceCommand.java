@@ -64,7 +64,7 @@ public class AddEventPerformanceCommand extends Object implements ICommand{
 
     @Override
     public void execute(Context context) {
-        //execute will check all requirments are met and add the event performance to the event
+        // Execute will check all requirements are met and add the event performance to the event
         LogStatus logStatus = null;
         User currUser = context.getUserState().getCurrentUser();
         List<Event> allEvents = context.getEventState().getAllEvents();

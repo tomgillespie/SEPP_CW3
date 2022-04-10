@@ -42,7 +42,6 @@ public abstract class UpdateProfileCommand extends Object implements ICommand {
             return true;
         }
         else{
-            //what is success result
             this.successResult = false;
             return false;
         }

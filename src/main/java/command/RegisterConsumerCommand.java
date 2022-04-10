@@ -37,10 +37,12 @@ public class RegisterConsumerCommand extends Object implements ICommand{
     @Override
     public void execute(Context context) {
         LogStatus logStatus = null;
+        // Verifies no null inputs
         if (name == null || email == null || phoneNumber == null || password == null || paymentAccountEmail == null) {
             logStatus = LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL;
             Logger.getInstance().logAction("RegisterConsumerCommand.execute", LogStatus.USER_REGISTER_FIELDS_CANNOT_BE_NULL);
         }
+        // Loop through all recorded users and check that the given email is not already registered
         Map<String, User> allUsers = context.getUserState().getAllUsers();
         for (Map.Entry<String, User> entry : allUsers.entrySet()){
             User currUser = entry.getValue();

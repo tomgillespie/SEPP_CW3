@@ -40,6 +40,7 @@ public abstract class CreateEventCommand extends Object implements ICommand{
 
     protected boolean areInputsValid(Context context){
         if (title == null || type == null){
+            Logger.getInstance().logAction("CreateEventCommand.areInputsValid", LogStatus.CREATE_EVENT_NULL_INPUT);
             return false;
         }
         else return true;

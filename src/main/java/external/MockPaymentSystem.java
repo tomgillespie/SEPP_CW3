@@ -36,7 +36,8 @@ public class MockPaymentSystem implements PaymentSystem{
 
     @Override
     public boolean processPayment(String buyerAccountEmail, String sellerAccountEmail, double transactionAmount) {
-        if (buyerAccountEmail == null && sellerAccountEmail == null && transactionAmount <= 0){
+        // Catches cases where inputs are invalid
+        if (buyerAccountEmail == null || sellerAccountEmail == null || transactionAmount <= 0){
             return false;
         }
         if (buyerAccountEmail.equals(sellerAccountEmail)){
@@ -51,6 +52,7 @@ public class MockPaymentSystem implements PaymentSystem{
 
     @Override
     public boolean processRefund(String buyerAccountEmail, String sellerAccountEmail, double transactionAmount) {
+        // Remove transaction if refund requested
         for (int i = 0; i < transactionList.size(); i++){
             if (transactionList.get(i).getBuyerAccountEmail().equals(buyerAccountEmail)
                     && transactionList.get(i).getSellerAccountEmail().equals(sellerAccountEmail)

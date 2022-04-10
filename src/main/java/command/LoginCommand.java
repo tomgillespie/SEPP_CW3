@@ -10,7 +10,6 @@ public class LoginCommand extends Object implements ICommand{
 
     private String email;
     private String password;
-//    public LogStatus logStatus;
     private User userResult;
 
     public enum LogStatus {

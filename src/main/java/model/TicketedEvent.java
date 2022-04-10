@@ -7,7 +7,12 @@ public class TicketedEvent extends Event{
     private SponsorshipRequest sponsorshipRequest;
     private SponsorshipStatus sponsorshipStatus;
 
-    public TicketedEvent(long eventNumber, EntertainmentProvider organiser, String title, EventType type, double ticketPrice, int numTickets) {
+    public TicketedEvent(long eventNumber,
+                         EntertainmentProvider organiser,
+                         String title,
+                         EventType type,
+                         double ticketPrice,
+                         int numTickets) {
         super(eventNumber, organiser, title, type);
         this.ticketPrice = ticketPrice;
         this.numTickets = numTickets;

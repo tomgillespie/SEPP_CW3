@@ -51,12 +51,13 @@ public class MockEntertainmentProviderSystem implements EntertainmentProviderSys
         this.bookingToTicketsMap.put(bookingNumber, bookedTickets);
         this.bookingToEventMap.put(bookingNumber, eventNumber);
 
+        // Update the number of tickets associated with a given event in the eventMap
         Integer totalRemainingTicketsAtEvent = eventMap.get(eventNumber);
         totalRemainingTicketsAtEvent = totalRemainingTicketsAtEvent - bookedTickets;
         eventMap.put(eventNumber, totalRemainingTicketsAtEvent);
     }
 
-    //Not implemented inline with our requirements
+    // Not implemented inline with our requirements
     @Override
     public void cancelBooking(long bookingNumber) {
 

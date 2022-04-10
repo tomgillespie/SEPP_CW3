@@ -131,24 +131,6 @@ public class GovernmentReport2Command extends Object implements ICommand {
                     LogStatus.GOVERNMENT_REPORT2_SUCCESS
             );
         }
-
-//        LogStatus logStatus = null;
-//        Map<String, User> allUsers = context.getUserState().getAllUsers();
-//        for (Map.Entry<String, User> entry : allUsers.entrySet()) {
-//            // If user is an entertainment provider and their organisation name matches
-//            if ((entry.getValue() instanceof EntertainmentProvider && ((EntertainmentProvider)entry.getValue()).getOrgName().equals(orgName))){
-//                logStatus = LogStatus.MATCHING_ORG_NAME;
-//                Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.MATCHING_ORG_NAME);
-//            }
-//        }
-//        User loggedInUser = context.getUserState().getCurrentUser();
-//        if (!(loggedInUser instanceof GovernmentRepresentative)){
-//            logStatus = LogStatus.USER_NOT_GOV_REP;
-//            Logger.getInstance().logAction("GovernmentReport2Command.execute", LogStatus.USER_NOT_GOV_REP);
-//        }
-//
-//        if (consumerListResult.size() == 0 || logStatus != LogStatus.MATCHING_ORG_NAME){
-//            this.consumerListResult = null;
     }
 
     /**

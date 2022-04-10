@@ -46,16 +46,48 @@ public class EventState implements IEventState{
     }
 
     @Override
-    public TicketedEvent createTicketedEvent(EntertainmentProvider organiser, String title, EventType type, double ticketPrice, int numTickets) {
-        TicketedEvent newTicketedEvent = new TicketedEvent(nextEventNumber, organiser, title, type, ticketPrice, numTickets);
+    public TicketedEvent createTicketedEvent(
+            EntertainmentProvider organiser,
+            String title,
+            EventType type,
+            double ticketPrice,
+            int numTickets) {
+        TicketedEvent newTicketedEvent = new TicketedEvent(
+                nextEventNumber,
+                organiser,
+                title,
+                type,
+                ticketPrice,
+                numTickets);
         this.events.add(newTicketedEvent);
         nextEventNumber = nextEventNumber + 1;
         return newTicketedEvent;
     }
 
     @Override
-    public EventPerformance createEventPerformance(Event event, String venueAddress, LocalDateTime startDateTime, LocalDateTime endDateTime, List<String> performerNames, boolean hasSocialDistancing, boolean hasAirFiltration, boolean isOutdoors, int capacityLimit, int venueSize) {
-        EventPerformance newEventPerformance = new EventPerformance(nextPerformanceNumber, event, venueAddress, startDateTime, endDateTime, performerNames, hasSocialDistancing, hasAirFiltration, isOutdoors, capacityLimit, venueSize);
+    public EventPerformance createEventPerformance(
+            Event event,
+            String venueAddress,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime,
+            List<String> performerNames,
+            boolean hasSocialDistancing,
+            boolean hasAirFiltration,
+            boolean isOutdoors,
+            int capacityLimit,
+            int venueSize) {
+        EventPerformance newEventPerformance = new EventPerformance(
+                nextPerformanceNumber,
+                event,
+                venueAddress,
+                startDateTime,
+                endDateTime,
+                performerNames,
+                hasSocialDistancing,
+                hasAirFiltration,
+                isOutdoors,
+                capacityLimit,
+                venueSize);
         event.addPerformance(newEventPerformance);
         this.nextPerformanceNumber = nextPerformanceNumber + 1;
         return newEventPerformance;

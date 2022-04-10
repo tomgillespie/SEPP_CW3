@@ -10,11 +10,11 @@ TestBookingState.java
  TestBookingState
 LogInSystemTest.java
  LogInSystemTest
-CreateEventSystemTest.java
- CreateEventSystemTest
 BookEventSystemTest.java
  BookEventSystemTest
 TestEventState.java
  TestEventState
 RegisterEntertainmentProviderSystemTest.java
  RegisterEntertainmentProviderSystemTest
+CreateEventSystemTest.java
+ CreateEventSystemTest
